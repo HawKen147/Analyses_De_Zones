@@ -3,7 +3,7 @@ import tkinter.messagebox
 import customtkinter
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 
 class App(customtkinter.CTk):
@@ -16,7 +16,7 @@ class App(customtkinter.CTk):
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure((2, 3), weight=0)
+        self.grid_columnconfigure(2, weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
 
         # create sidebar frame with widgets
@@ -40,13 +40,18 @@ class App(customtkinter.CTk):
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
-        # create main entry and button
-        self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
-        self.entry.grid(row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew")
 
-        self.main_button_1 = customtkinter.CTkButton(master=self, fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE"))
-        self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
-
+        #create the main view
+        self.intro_label = customtkinter.CTkLabel(self, text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
+        self.creation_dossiers_label = customtkinter.CTkLabel(self,text="Cocher la case si vous souhaitez creer les dossiers (voir exemple ci dessous) \n CAM_XX \n         |_rampe \n        |_courir \n            |_marche \n                     |_incomplet.txt")
+        self.nb_camera_entry = customtkinter.CTkEntry(self, width=200, placeholder_text="Nombre de dossier à créer")
+        self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=200, placeholder_text="Chemin pour stocker les vidéos")
+        self.chemin_video_entry = customtkinter.CTkEntry(self, width=200, placeholder_text="Chemin ou sont stocker les vidéos")
+        self.intro_label.grid(row=0, column=1, sticky="nsew")
+        self.creation_dossiers_label.grid(row=1,column=1, sticky="nsew")
+        self.nb_camera_entry.grid(row=2, column=1)
+        self.chemin_dossier_entry.grid(row=3, column=1)
+        self.chemin_video_entry.grid(row=4, column=1)
         # create textbox
         #self.textbox = customtkinter.CTkTextbox(self, width=250)
         #self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
