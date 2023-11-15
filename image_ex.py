@@ -130,7 +130,7 @@ class App(customtkinter.CTk):
         #self.slider_2.configure(command=self.progressbar_3.set)
         #self.progressbar_1.configure(mode="indeterminnate")
         #self.progressbar_1.start()
-        self.label_presentation = customtkinter.CTkLabel(self.label,text="Pour commencer, veuilliez choisir si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
+        #self.label_presentation = customtkinter.CTkLabel(self.label,text="Pour commencer, veuilliez choisir si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
         #self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
         #self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
         #self.seg_button_1.set("Value 2")
