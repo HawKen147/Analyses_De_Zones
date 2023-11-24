@@ -1,0 +1,15 @@
+# .gitpod.yml
+
+tasks:
+  - name: Install dependencies
+    command: |
+      pip install customtkinter
+      pip install tk
+      pip install tk.messagebox
+
+# Ajoutez d'autres configurations selon vos besoins
+
+vscode:
+  extensions:
+    - ms-python.python
+    # Ajoutez d'autres extensions VS Code selon vos besoins
