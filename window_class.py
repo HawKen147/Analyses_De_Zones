@@ -2,12 +2,9 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 
-customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-
-#Creer deux variable global, largeur et longeur
-#Faire en sorte quelle se mettent a jours en fonction de la taille de la fenetre
 width = 825
 height = 500
 class App(customtkinter.CTk):
@@ -28,14 +25,14 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight=1)
 
         # create sidebar frame with widgets
-        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, height=height, corner_radius=0, fg_color='red')
+        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, height=height, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=10, sticky="nsw")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="CustomTkinter", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
-        self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, command=self.sidebar_button_event)
+        self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, command=self.sidebar_button_event, text="Essaies Zones")
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, command=self.sidebar_button_event)
+        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, command=self.sidebar_button_event, text="Analyse de vie")
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=7, column=0, padx=20, pady=(10, 0))
@@ -50,14 +47,14 @@ class App(customtkinter.CTk):
 
 
         # create the main view
-        self.main_frame = customtkinter.CTkFrame(self, height=height, width=width, fg_color='blue') 
+        self.main_frame = customtkinter.CTkFrame(self, height=height, width=width) 
         self.main_frame.grid(row=0, column=1, rowspan=10, sticky="nsew")
         self.main_frame.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight=1)
-        self.main_frame.grid_columnconfigure((0,1), weight=1)
+        self.main_frame.grid_columnconfigure(1, weight=1)
 
 
         #widgets inside the main_frame
-        self.intro_label = customtkinter.CTkLabel(self.main_frame, anchor='center',  fg_color='green', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
+        self.intro_label = customtkinter.CTkLabel(self.main_frame, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
         self.creation_dossiers_label = customtkinter.CTkLabel(self.main_frame, justify='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
         self.nb_camera_entry = customtkinter.CTkEntry(self.main_frame, width=250, placeholder_text="Nombre de dossier à créer")
         self.chemin_dossier_label = customtkinter.CTkLabel(self.main_frame, anchor='center', text="Entrer le chemin pour creer / stocker les videos")
@@ -67,14 +64,14 @@ class App(customtkinter.CTk):
         self.valider_button = customtkinter.CTkButton(self.main_frame, anchor='center', text="Valider")
     
         #position of the main_frame_widgets
-        self.intro_label.grid(row=0, column=1, pady=(20,5), padx=5, sticky="nsw")
+        self.intro_label.grid(row=0, column=1, pady=(20,5), padx=5, sticky="nswe")
         self.creation_dossiers_label.grid(row=1,column=1, sticky="nsew")
         self.nb_camera_entry.grid(row=2, column=1, pady=(10,5), sticky="n")
-        self.chemin_dossier_label.grid(row=3, column=1, pady=(5,5), sticky="ns")
-        self.chemin_dossier_entry.grid(row=4, column=1, pady=(5,5), sticky="ns")
-        self.chemin_video_label.grid(row=5, column=1, pady=(5,5), sticky="ns")
-        self.chemin_video_entry.grid(row=6, column=1, pady=(5,5), sticky="ns")
-        self.valider_button.grid(row=7,column=1, pady=5, sticky="ns")
+        self.chemin_dossier_label.grid(row=3, column=1, pady=(5,5), sticky="nsew")
+        self.chemin_dossier_entry.grid(row=4, column=1, pady=(5,5), sticky="n")
+        self.chemin_video_label.grid(row=5, column=1, pady=(5,5), sticky="nsew")
+        self.chemin_video_entry.grid(row=6, column=1, pady=(5,5), sticky="n")
+        self.valider_button.grid(row=7,column=1, pady=5, sticky="n")
 
         # create textbox
         #self.textbox = customtkinter.CTkTextbox(self, width=250)
@@ -166,7 +163,7 @@ class App(customtkinter.CTk):
         #self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
         #self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
         #self.seg_button_1.set("Value 2")
-        self.bind("<Configure>", self.afficher_taille_frame) #creer l'event pour afficher la taille de la fenetre
+        #self.bind("<Configure>", self.afficher_taille_frame) #creer l'event pour afficher la taille de la fenetre
 
     def open_input_dialog_event(self):
         dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
@@ -182,23 +179,22 @@ class App(customtkinter.CTk):
     def sidebar_button_event(self):
         print("sidebar_button click")
     
-    def afficher_taille_frame(self, event=None):
-        largeur_sidebar_frame = self.sidebar_frame.winfo_width()
-        hauteur_sidebar_frame = self.sidebar_frame.winfo_height()
-        heuteur_main_frame = self.main_frame.winfo_height()
-        largeur_main_frame = self.main_frame.winfo_width()
-        width = self.winfo_width()
-        height = self.winfo_height() 
-        print(f"Largeur window : {width} pixels")
-        print(f"Hauteur window : {height} pixels")
-        print(f"Largeur du frame {largeur_sidebar_frame} pixels")
-        print(f"Hauteur du frame {hauteur_sidebar_frame} pixels")
-        print(f"Largeur du frame {largeur_main_frame} pixels")
-        print(f"Hauteur du frame {heuteur_main_frame} pixels")
+    #def afficher_taille_frame(self, event=None):
+    #    largeur_sidebar_frame = self.sidebar_frame.winfo_width()
+    #    hauteur_sidebar_frame = self.sidebar_frame.winfo_height()
+    #    heuteur_main_frame = self.main_frame.winfo_height()
+    #    largeur_main_frame = self.main_frame.winfo_width()
+    #    width = self.winfo_width()
+    #    height = self.winfo_height() 
+    #    print(f"Largeur window : {width} pixels")
+    #    print(f"Hauteur window : {height} pixels")
+    #    print(f"Largeur du frame {largeur_sidebar_frame} pixels")
+    #    print(f"Hauteur du frame {hauteur_sidebar_frame} pixels")
+    #    print(f"Largeur du frame {largeur_main_frame} pixels")
+    #    print(f"Hauteur du frame {heuteur_main_frame} pixels")
         
     
 
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-
