@@ -166,8 +166,7 @@ class App(customtkinter.CTk):
     def test(e):
         print("oui")
     
-    def check_folder_checkBox():
-        if checked.get() == 1 :
+    if checked.get() == 1 :
             print("cocher")
 
     def open_input_dialog_event(self):
