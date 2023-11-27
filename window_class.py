@@ -3,12 +3,11 @@ import tkinter.messagebox
 import customtkinter
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 width = 825
 height = 500
 class App(customtkinter.CTk):
-
 
     def __init__(self):
         super().__init__()
@@ -47,31 +46,31 @@ class App(customtkinter.CTk):
 
 
         # create the main view
-        self.main_frame = customtkinter.CTkFrame(self, height=height, width=width) 
+        """self.main_frame = customtkinter.CTkFrame(self, height=height, width=width, corner_radius=0) 
         self.main_frame.grid(row=0, column=1, rowspan=10, sticky="nsew")
         self.main_frame.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight=1)
-        self.main_frame.grid_columnconfigure(1, weight=1)
+        self.main_frame.grid_columnconfigure(1, weight=1)"""
 
 
         #widgets inside the main_frame
-        self.intro_label = customtkinter.CTkLabel(self.main_frame, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
-        self.creation_dossiers_label = customtkinter.CTkLabel(self.main_frame, justify='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
-        self.nb_camera_entry = customtkinter.CTkEntry(self.main_frame, width=250, placeholder_text="Nombre de dossier à créer")
-        self.chemin_dossier_label = customtkinter.CTkLabel(self.main_frame, anchor='center', text="Entrer le chemin pour creer / stocker les videos")
-        self.chemin_video_label = customtkinter.CTkLabel(self.main_frame, anchor='center', text="Entrer le chemin pour recuperer les videos de surveillance")
-        self.chemin_dossier_entry = customtkinter.CTkEntry(self.main_frame, width=250, placeholder_text="Chemin pour stocker les vidéos")
-        self.chemin_video_entry = customtkinter.CTkEntry(self.main_frame, width=250, placeholder_text="Chemin pour recuperer les vidéos")
-        self.valider_button = customtkinter.CTkButton(self.main_frame, anchor='center', text="Valider")
+        self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
+        self.creation_dossiers_label = customtkinter.CTkLabel(self, justify='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
+        self.nb_camera_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Nombre de dossier à créer")
+        self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour creer / stocker les videos")
+        self.chemin_video_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour recuperer les videos de surveillance")
+        self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
+        self.chemin_video_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour recuperer les vidéos")
+        self.valider_button = customtkinter.CTkButton(self, anchor='center', text="Valider")
     
         #position of the main_frame_widgets
-        self.intro_label.grid(row=0, column=1, pady=(20,5), padx=5, sticky="nswe")
+        self.intro_label.grid(row=0, column=1, pady=(50,0), padx=5, sticky="nswe")
         self.creation_dossiers_label.grid(row=1,column=1, sticky="nsew")
-        self.nb_camera_entry.grid(row=2, column=1, pady=(10,5), sticky="n")
+        self.nb_camera_entry.grid(row=2, column=1, pady=(0,10))
         self.chemin_dossier_label.grid(row=3, column=1, pady=(5,5), sticky="nsew")
-        self.chemin_dossier_entry.grid(row=4, column=1, pady=(5,5), sticky="n")
+        self.chemin_dossier_entry.grid(row=4, column=1, pady=(5,5))
         self.chemin_video_label.grid(row=5, column=1, pady=(5,5), sticky="nsew")
-        self.chemin_video_entry.grid(row=6, column=1, pady=(5,5), sticky="n")
-        self.valider_button.grid(row=7,column=1, pady=5, sticky="n")
+        self.chemin_video_entry.grid(row=6, column=1, pady=(5,5))
+        self.valider_button.grid(row=7,column=1, pady=5)
 
         # create textbox
         #self.textbox = customtkinter.CTkTextbox(self, width=250)
