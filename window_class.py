@@ -7,6 +7,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "gre
 
 width = 825
 height = 500
+
 class App(customtkinter.CTk):
 
     def __init__(self):
@@ -21,11 +22,11 @@ class App(customtkinter.CTk):
         # configure grid layout (4x4)
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight=1)
+        self.grid_rowconfigure((0,1,2,3,4,5,6,7,8), weight=1)
 
         # create sidebar frame with widgets
-        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, height=height, corner_radius=0)
-        self.sidebar_frame.grid(row=0, column=0, rowspan=10, sticky="nsw")
+        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
+        self.sidebar_frame.grid(row=0, column=0, rowspan=11, sticky="nsw")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="CustomTkinter", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
@@ -45,17 +46,12 @@ class App(customtkinter.CTk):
         self.scaling_optionemenu.grid(row=10, column=0, padx=20, pady=(10, 20))
 
 
-        # create the main view
-        """self.main_frame = customtkinter.CTkFrame(self, height=height, width=width, corner_radius=0) 
-        self.main_frame.grid(row=0, column=1, rowspan=10, sticky="nsew")
-        self.main_frame.grid_rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight=1)
-        self.main_frame.grid_columnconfigure(1, weight=1)"""
-
-
-        #widgets inside the main_frame
+        #Main : Essaies Zones
+        checked = customtkinter.IntVar()
         self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
-        self.creation_dossiers_label = customtkinter.CTkLabel(self, justify='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
+        self.creation_dossiers_label = customtkinter.CTkLabel(self, anchor='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
         self.nb_camera_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Nombre de dossier à créer")
+        self.verification_checkbox = customtkinter.CTkCheckBox(self, variable=checked, onvalue=1, offvalue=0, text="Cocher pour voir les fichiers manquants")
         self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour creer / stocker les videos")
         self.chemin_video_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour recuperer les videos de surveillance")
         self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
@@ -65,12 +61,13 @@ class App(customtkinter.CTk):
         #position of the main_frame_widgets
         self.intro_label.grid(row=0, column=1, pady=(50,0), padx=5, sticky="nswe")
         self.creation_dossiers_label.grid(row=1,column=1, sticky="nsew")
-        self.nb_camera_entry.grid(row=2, column=1, pady=(0,10))
-        self.chemin_dossier_label.grid(row=3, column=1, pady=(5,5), sticky="nsew")
-        self.chemin_dossier_entry.grid(row=4, column=1, pady=(5,5))
-        self.chemin_video_label.grid(row=5, column=1, pady=(5,5), sticky="nsew")
-        self.chemin_video_entry.grid(row=6, column=1, pady=(5,5))
-        self.valider_button.grid(row=7,column=1, pady=5)
+        self.nb_camera_entry.grid(row=2, column=1, pady=(0,5))
+        self.verification_checkbox.grid(row=3, column=1)
+        self.chemin_dossier_label.grid(row=4, column=1, pady=(5,0), sticky="nsew")
+        self.chemin_dossier_entry.grid(row=5, column=1, pady=(0,5))
+        self.chemin_video_label.grid(row=6, column=1, pady=(5,0), sticky="nsew")
+        self.chemin_video_entry.grid(row=7, column=1, pady=(0,5))
+        self.valider_button.grid(row=8,column=1, pady=5)
 
         # create textbox
         #self.textbox = customtkinter.CTkTextbox(self, width=250)
@@ -163,6 +160,15 @@ class App(customtkinter.CTk):
         #self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
         #self.seg_button_1.set("Value 2")
         #self.bind("<Configure>", self.afficher_taille_frame) #creer l'event pour afficher la taille de la fenetre
+
+        self.bind_all("<KeyPress>", App.test)
+
+    def test(e):
+        print("oui")
+    
+    def check_folder_checkBox():
+        if checked.get() == 1 :
+            print("cocher")
 
     def open_input_dialog_event(self):
         dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
