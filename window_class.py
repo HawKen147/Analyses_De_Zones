@@ -1,4 +1,6 @@
 import tkinter
+import os
+import fonctions
 import tkinter.messagebox
 import customtkinter
 
@@ -47,11 +49,11 @@ class App(customtkinter.CTk):
 
 
         #Main : Essaies Zones
-        checked = customtkinter.IntVar()
         self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
         self.creation_dossiers_label = customtkinter.CTkLabel(self, anchor='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
         self.nb_camera_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Nombre de dossier à créer")
-        self.verification_checkbox = customtkinter.CTkCheckBox(self, variable=checked, onvalue=1, offvalue=0, text="Cocher pour voir les fichiers manquants")
+        checked = customtkinter.IntVar()
+        self.verification_checkbox = customtkinter.CTkCheckBox(self, variable=checked, onvalue=1, offvalue=0, text="Cocher pour voir les fichiers manquants", command=self.get_checkbox)
         self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour creer / stocker les videos")
         self.chemin_video_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour recuperer les videos de surveillance")
         self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
@@ -69,105 +71,26 @@ class App(customtkinter.CTk):
         self.chemin_video_entry.grid(row=7, column=1, pady=(0,5))
         self.valider_button.grid(row=8,column=1, pady=5)
 
-        # create textbox
-        #self.textbox = customtkinter.CTkTextbox(self, width=250)
-        #self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
-
-        # create tabview
-        #self.tabview = customtkinter.CTkTabview(self, width=250)
-        #self.tabview.grid(row=0, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        #self.tabview.add("CTkTabview")
-        #self.tabview.add("Tab 2")
-        #self.tabview.add("Tab 3")
-        #self.tabview.tab("CTkTabview").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
-        #self.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
-
-        #self.optionmenu_1 = customtkinter.CTkOptionMenu(self.tabview.tab("CTkTabview"), dynamic_resizing=False, values=["Value 1", "Value 2", "Value Long Long Long"])
-        #self.optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
-        #self.combobox_1 = customtkinter.CTkComboBox(self.tabview.tab("CTkTabview"), values=["Value 1", "Value 2", "Value Long....."])
-        #self.combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
-        #self.string_input_button = customtkinter.CTkButton(self.tabview.tab("CTkTabview"), text="Open CTkInputDialog", command=self.open_input_dialog_event)
-        #self.string_input_button.grid(row=2, column=0, padx=20, pady=(10, 10))
-        #self.label_tab_2 = customtkinter.CTkLabel(self.tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
-        #self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
-
-        # create radiobutton frame
-        #self.radiobutton_frame = customtkinter.CTkFrame(self)
-        #self.radiobutton_frame.grid(row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        #self.radio_var = tkinter.IntVar(value=0)
-        #self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="CTkRadioButton Group:")
-        #self.label_radio_group.grid(row=0, column=2, columnspan=1, padx=10, pady=10, sticky="")
-        #self.radio_button_1 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=0)
-        #self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="n")
-        #self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=1)
-        #self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="n")
-        #self.radio_button_3 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=2)
-        #self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
-
-        # create slider and progressbar frame
-        #self.slider_progressbar_frame = customtkinter.CTkFrame(self, fg_color="transparent")
-        #self.slider_progressbar_frame.grid(row=1, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        #self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
-        #self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
-        #self.seg_button_1 = customtkinter.CTkSegmentedButton(self.slider_progressbar_frame)
-        #self.seg_button_1.grid(row=0, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
-        #self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
-        #self.progressbar_1.grid(row=1, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
-        #self.progressbar_2 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
-        #self.progressbar_2.grid(row=2, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
-        #self.slider_1 = customtkinter.CTkSlider(self.slider_progressbar_frame, from_=0, to=1, number_of_steps=4)
-        #self.slider_1.grid(row=3, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
-        #self.slider_2 = customtkinter.CTkSlider(self.slider_progressbar_frame, orientation="vertical")
-        #self.slider_2.grid(row=0, column=1, rowspan=5, padx=(10, 10), pady=(10, 10), sticky="ns")
-        #self.progressbar_3 = customtkinter.CTkProgressBar(self.slider_progressbar_frame, orientation="vertical")
-        #self.progressbar_3.grid(row=0, column=2, rowspan=5, padx=(10, 20), pady=(10, 10), sticky="ns")
-
-        # create scrollable frame
-        #self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="CTkScrollableFrame")
-        #self.scrollable_frame.grid(row=1, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        #self.scrollable_frame.grid_columnconfigure(0, weight=1)
-        #self.scrollable_frame_switches = []
-        #for i in range(100):
-        #    switch = customtkinter.CTkSwitch(master=self.scrollable_frame, text=f"CTkSwitch {i}")
-        #    switch.grid(row=i, column=0, padx=10, pady=(0, 20))
-        #    self.scrollable_frame_switches.append(switch)
-
-        # create checkbox and switch frame
-        #self.checkbox_slider_frame = customtkinter.CTkFrame(self)
-        #self.checkbox_slider_frame.grid(row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        #self.checkbox_1 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        #self.checkbox_1.grid(row=1, column=0, pady=(20, 0), padx=20, sticky="n")
-        #self.checkbox_2 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        #self.checkbox_2.grid(row=2, column=0, pady=(20, 0), padx=20, sticky="n")
-        #self.checkbox_3 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        #self.checkbox_3.grid(row=3, column=0, pady=20, padx=20, sticky="n")
-
-        # set default values
-        #self.checkbox_3.configure(state="disabled")
-        #self.checkbox_1.select()
-        #self.scrollable_frame_switches[0].select()
-        #self.scrollable_frame_switches[4].select()
-        self.valider_button.configure(state="disabled")
+        #definition initial state       
+        self.valider_button
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
-        #self.optionmenu_1.set("CTkOptionmenu")
-        #self.combobox_1.set("CTkComboBox")
-        #self.slider_1.configure(command=self.progressbar_2.set)
-        #self.slider_2.configure(command=self.progressbar_3.set)
-        #self.progressbar_1.configure(mode="indeterminnate")
-        #self.progressbar_1.start()
-        #self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
-        #self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
-        #self.seg_button_1.set("Value 2")
-        #self.bind("<Configure>", self.afficher_taille_frame) #creer l'event pour afficher la taille de la fenetre
+        self.bind_all("<KeyPress>", self.functions_calls)
 
-        self.bind_all("<KeyPress>", App.test)
+    def check_path(self, path):
+        if ((os.path.exists(path) or path == '' )and self.nb_camera_entry.get() > '0'):
+            #self.valider_button.configure(state="enable")
+            return True
+        else :
+            self.valider_button.configure(state="disable")
+            return False
 
-    def test(e):
-        print("oui")
-    
-    if checked.get() == 1 :
-            print("cocher")
+    def get_checkbox(self):
+        if self.verification_checkbox.get():
+            print('1')
+        else :
+            print('0')
+
 
     def open_input_dialog_event(self):
         dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
@@ -182,6 +105,11 @@ class App(customtkinter.CTk):
 
     def sidebar_button_event(self):
         print("sidebar_button click")
+    
+    
+    def functions_calls(self, event):
+        print(self.nb_camera_entry.get())
+        self.check_path(self.chemin_dossier_entry.get())
     
     #def afficher_taille_frame(self, event=None):
     #    largeur_sidebar_frame = self.sidebar_frame.winfo_width()

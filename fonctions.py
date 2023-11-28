@@ -119,3 +119,7 @@ def get_list_videos_cam(path):
     # Utilisez la fonction os.listdir() pour obtenir la liste des fichiers dans le dossier
     fichiers = os.listdir(path)
     return fichiers
+
+
+def check_folders(path):
+    print('ok')
