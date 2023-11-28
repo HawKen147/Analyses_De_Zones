@@ -79,7 +79,7 @@ class App(customtkinter.CTk):
 
     def check_path(self, path):
         if ((os.path.exists(path) or path == '' )and self.nb_camera_entry.get() > '0'):
-            #self.valider_button.configure(state="enable")
+            self.valider_button.configure(state="enable")
             return True
         else :
             self.valider_button.configure(state="disable")
