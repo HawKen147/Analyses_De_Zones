@@ -71,6 +71,7 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
 
 
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
+    print("la fonction est appeler")
     numero_cam = list_name_video_cam[0][2:]
     folder_cam = "CAM_" + numero_cam
     type_passage = list_name_video_cam[-1][1]

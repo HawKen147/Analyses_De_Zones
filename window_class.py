@@ -4,6 +4,8 @@ import fonctions
 import tkinter.messagebox
 import customtkinter
 
+#Faire move_folder pas sur que ca marche 
+
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
@@ -133,9 +135,8 @@ class App(customtkinter.CTk):
             #appel la fonction pour verifier tous les fichiers
             print("check les fichiers manquants")
         elif nb_camera != '' and chemin_stocker!= '':
-            #apppel la fonction pour créer les dossiers
+            #appel la fonction pour créer les dossiers
             fonctions.creer_dossier(nb_camera, chemin_stocker)
-            print("creer les dossiers")
         elif chemin_stocker!= '' and chemin_get_videos != '':
             #appel la fonction pour déplacer les videos des cameras
             print("déplace les videos") 
