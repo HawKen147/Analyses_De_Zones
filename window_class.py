@@ -4,7 +4,7 @@ import fonctions
 import tkinter.messagebox
 import customtkinter
 
-#Faire move_folder pas sur que ca marche 
+#Corriger le code pour qu'il ne fasse pas d'erreur lorsque le fichier dans le dossier des vidéos a déplacer lorsque celui ci ne convient pas au format
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -95,7 +95,7 @@ class App(customtkinter.CTk):
         chemin_stocker = self.chemin_dossier_entry.get()
         chemin_get_videos = self.chemin_video_entry.get()
         check_folders_checkbox = self.verification_checkbox.get()
-        print(check_folders_checkbox)
+        #print(check_folders_checkbox)
         if check_folders_checkbox:
             return True
         elif nb_camera.isdigit() and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) == 0 and chemin_get_videos == '' and not check_folders_checkbox :          # Verifier si nb_camera est bien un entier, si le chemin rensigner est existant et si le chemin renseigner est vide, si il n'y a rien d'entré dans lentré des videos surveillances et si la checkbox est bien décocher.
@@ -139,7 +139,7 @@ class App(customtkinter.CTk):
             fonctions.creer_dossier(nb_camera, chemin_stocker)
         elif chemin_stocker!= '' and chemin_get_videos != '':
             #appel la fonction pour déplacer les videos des cameras
-            print("déplace les videos") 
+            fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
     
     def functions_calls(self, event):
        # self.check_path(self.chemin_dossier_entry.get())

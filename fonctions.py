@@ -64,6 +64,7 @@ def check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_
 #Fonction qui va permetre de deplacer les videos dans les dossiers creer precedement
 def get_video_cam_files(path_video_camera, path_folder_camera):
     list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier
+    print(f"liste des videos : {list_videos_cam}")
     for video_cam in list_videos_cam:
         list_name_video_cam = format_name_video(video_cam)
         res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
@@ -71,7 +72,7 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
 
 
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
-    print("la fonction est appeler")
+    #print("la fonction est appeler")
     numero_cam = list_name_video_cam[0][2:]
     folder_cam = "CAM_" + numero_cam
     type_passage = list_name_video_cam[-1][1]
@@ -113,7 +114,8 @@ def format_name_video(nom_video):
     nom_video.append(numero_cam)                        #puis on ajoute chaque variable dans la list nom_video
     nom_video.append(date)
     nom_video.append(type_fichier)
-    return nom_video                                    #Retourne la liste creer precedement
+    print(f"nom video = {nom_video}")
+    #return nom_video                                    #Retourne la liste creer precedement
 
 #retourne la liste des fichier contenu dans le chemin spécifié
 def get_list_videos_cam(path):
