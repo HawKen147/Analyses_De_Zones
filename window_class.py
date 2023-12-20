@@ -16,11 +16,13 @@ class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
+        self.deuxieme_fenetre = None
 
         # configure window
         self.title("Move Folder")
         self.minsize(825,500)
         self.geometry(f"{width}x{height}")
+        
         
 
         # configure grid layout (4x4)
@@ -141,30 +143,33 @@ class App(customtkinter.CTk):
         string_list_bad_extensions = '\n'.join(list_bad_extensions)
         string_list_video_err = '\n'.join(list_video_err)
         
-        deuxieme_fenetre = customtkinter.CTkToplevel(self)
-        deuxieme_fenetre.title("Erreurs")
-
-        #Define the 2nd window with grid configuration
-        deuxieme_fenetre.grid_rowconfigure((0,1,2,3,4), weight=1)
-        deuxieme_fenetre.grid_columnconfigure(0, weight=1)
+        # Utilisez self.deuxieme_fenetre pour définir la fenêtre
+        self.deuxieme_fenetre = customtkinter.CTkToplevel(self)
+        self.deuxieme_fenetre.title("Erreurs")
+    
+        # Define the 2nd window with grid configuration
+        self.deuxieme_fenetre.grid_rowconfigure((0,1,2,3,4), weight=1)
+        self.deuxieme_fenetre.grid_columnconfigure(0, weight=1)
         
         # Ajouter des widgets à la deuxième fenêtre
-        label_err_extension = customtkinter.CTkLabel(deuxieme_fenetre, text="Liste des erreurs du a une mauvaise extension de fichier : ")
-        label_err_folder_extension = customtkinter.CTkLabel(deuxieme_fenetre, text=string_list_bad_extensions)
-        label_err_video = customtkinter.CTkLabel(deuxieme_fenetre, text="Liste des fichiers qui n'ont pas pu etre déplacé : ")
-        label_string_list_video_err = customtkinter.CTkLabel(deuxieme_fenetre, text=string_list_video_err)
-        button_quit = customtkinter.CTkButton(deuxieme_fenetre, text="ok", command=close_window)
+        label_err_extension = customtkinter.CTkLabel(self.deuxieme_fenetre, text="Liste des erreurs du a une mauvaise extension de fichier : ")
+        label_err_folder_extension = customtkinter.CTkLabel(self.deuxieme_fenetre, text=string_list_bad_extensions)
+        label_err_video = customtkinter.CTkLabel(self.deuxieme_fenetre, text="Liste des fichiers qui n'ont pas pu etre déplacé : ")
+        label_string_list_video_err = customtkinter.CTkLabel(self.deuxieme_fenetre, text=string_list_video_err)
+        button_quit = customtkinter.CTkButton(self.deuxieme_fenetre, text="ok", command=self.close_window)
         label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
         label_err_folder_extension.grid(row=1, column=0, pady=5)
         label_err_video.grid(row=2, column=0, pady=(20,5))
         label_string_list_video_err.grid(row=3, column=0, pady=5)
         button_quit.grid(row=4, column=0, pady=5)
         
-        deuxieme_fenetre.attributes('-topmost', True)
-        deuxieme_fenetre.lift()
+        self.deuxieme_fenetre.attributes('-topmost', True)
+        self.deuxieme_fenetre.lift()
 
-    def close_window():
-        deuxieme_fenetre.destroy()
+    def close_window(self):
+        print("je suis cliqué")
+        if self.deuxieme_fenetre:
+            self.deuxieme_fenetre.destroy()
 
 if __name__ == "__main__":
     app = App()
