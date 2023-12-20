@@ -63,31 +63,40 @@ def check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_
 
 #Fonction qui va permetre de deplacer les videos dans les dossiers creer precedement
 def get_video_cam_files(path_video_camera, path_folder_camera):
+    list_video_err = []
     list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier
-    print(f"liste des videos : {list_videos_cam}")
+    #print(f"liste des videos : {list_videos_cam}")
     for video_cam in list_videos_cam:
         list_name_video_cam = format_name_video(video_cam)
         res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
-        print(f"le chemin {res} n'existe pas ")
-
-
+        print(list_name_video_cam)
+        if res == 1 :
+            #appel de la fonction
+            print('test')
+        else :
+            list_video_err.append(res)
+    print(list_video_err)
+    
+#Fonction qui déplace les videos dans les bon dossiers
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
-    #print("la fonction est appeler")
-    numero_cam = list_name_video_cam[0][2:]
-    folder_cam = "CAM_" + numero_cam
-    type_passage = list_name_video_cam[-1][1]
-    if type_passage == 'R':
-        type_passage = "rampe"
-    elif type_passage == 'C':
-        type_passage = "courir"
-    elif type_passage == "M":
-        type_passage = "marche"
-    else:
-        return 0
+    try :
+        numero_cam = list_name_video_cam[0][2:]
+        folder_cam = "CAM_" + numero_cam
+        type_passage = list_name_video_cam[-1][1]
+        if type_passage == 'R':
+            type_passage = "rampe"
+        elif type_passage == 'C':
+            type_passage = "courir"
+        elif type_passage == "M":
+            type_passage = "marche"
+        else:
+            return list_name_video_cam
+    except :
+        return list_name_video_cam
     
     path_folder_camera += "\\" + folder_cam + "\\" + type_passage
     path_video_camera += "\\" + video_name
-    print(f"chemin video = {path_video_camera} chemin dossier = {path_folder_camera}")
+    #print(f"chemin video = {path_video_camera} chemin dossier = {path_folder_camera}")
     if not os.path.exists(path_folder_camera):
         return path_folder_camera
     
@@ -101,22 +110,24 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
 #Attention, si l'utilisateur n'a pas afficher les extensions de fichier, il y a un risque que cela ne marhce pas3
 def format_name_video(nom_video):
     #nom_video = "BAIXAS_TH05-2023-09-07_10h42min44s990ms_DR.asf" format type du nom de fichier a traiter
-    nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video
-    nom_video_nCam_date = nom_video.pop(1).split("-")   #recupere et supprime la case 1 de la list creer precedement, sépare la chaine de caractere a chaque '-' et en creer un tableau
-    numero_cam = nom_video_nCam_date.pop(0)             #recupere et supprime la 1ere case de la list (nom + numero de la camera) 
-    date = "/".join(nom_video_nCam_date[::-1])          #Creer la chaine de caractere de la date, [2023,  09, 07] -> 07/09/2023
-    heure = nom_video.pop(1)                            #recupere et supprime l'heure contenue dans nom_video
-    heure = heure[0:5].replace('h',':')                 #Ne garde que l'heure et les min, remplace 'h' par ':' ; 10h42min44s990ms -> 10:42
-    heure += ':00'                                      #ajoute a la fin de la chaine de caractere " :00"
-    date += ' ' + heure                                 #concataine la date et l'heure
-    type_fichier = nom_video[1]                         #recupere l"extension de video + debut,milieu,fin ...
-    nom_video.clear()                                   #Vide nom_video car on a récuperé ce que l'on voulait
-    nom_video.append(numero_cam)                        #puis on ajoute chaque variable dans la list nom_video
-    nom_video.append(date)
-    nom_video.append(type_fichier)
-    print(f"nom video = {nom_video}")
-    #return nom_video                                    #Retourne la liste creer precedement
-
+   try: 
+        nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video
+        nom_video_nCam_date = nom_video.pop(1).split("-")   #recupere et supprime la case 1 de la list creer precedement, sépare la chaine de caractere a chaque '-' et en creer un tableau
+        numero_cam = nom_video_nCam_date.pop(0)             #recupere et supprime la 1ere case de la list (nom + numero de la camera) 
+        date = "/".join(nom_video_nCam_date[::-1])          #Creer la chaine de caractere de la date, [2023,  09, 07] -> 07/09/2023
+        heure = nom_video.pop(1)                            #recupere et supprime l'heure contenue dans nom_video
+        heure = heure[0:5].replace('h',':')                 #Ne garde que l'heure et les min, remplace 'h' par ':' ; 10h42min44s990ms -> 10:42
+        heure += ':00'                                      #ajoute a la fin de la chaine de caractere " :00"
+        date += ' ' + heure                                 #concataine la date et l'heure
+        type_fichier = nom_video[1]                         #recupere l"extension de video + debut,milieu,fin ...
+        nom_video.clear()                                   #Vide nom_video car on a récuperé ce que l'on voulait
+        nom_video.append(numero_cam)                        #puis on ajoute chaque variable dans la list nom_video
+        nom_video.append(date)
+        nom_video.append(type_fichier)
+        return nom_video                                    #Retourne la liste creer precedement
+   except :
+       return nom_video
+   
 #retourne la liste des fichier contenu dans le chemin spécifié
 def get_list_videos_cam(path):
     # Utilisez la fonction os.listdir() pour obtenir la liste des fichiers dans le dossier
