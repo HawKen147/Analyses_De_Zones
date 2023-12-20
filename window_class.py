@@ -4,7 +4,7 @@ import fonctions
 import tkinter.messagebox
 import customtkinter
 
-#Finir la deuxieme fenetre, fonction pour la fermer lorsqu'on clique sur le bouton ok
+#Faire la fonction check folders
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
