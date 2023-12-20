@@ -4,7 +4,7 @@ import fonctions
 import tkinter.messagebox
 import customtkinter
 
-#Corriger le code pour qu'il ne fasse pas d'erreur lorsque le fichier dans le dossier des vidéos a déplacer lorsque celui ci ne convient pas au format
+#Finir la deuxieme fenetre, fonction pour la fermer lorsqu'on clique sur le bouton ok
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -79,23 +79,19 @@ class App(customtkinter.CTk):
         self.scaling_optionemenu.set("100%")
         self.bind_all("<KeyPress>", self.functions_calls)
 
+    #Check if the given path exits
     def check_path(self, path):
         if ((os.path.exists(path) or path == '')):
             return True
         else :
             return False
-        
-    """def modify_entrys(self):
-         nb_camera = self.nb_camera_entry.get()
-         if nb_camera.isdigit():
-        """
-
+    
+    #Get the entrys for the number of cameras, path to get the videos, path to stock the videos and the checkbox state
     def get_entrys(self):
         nb_camera = self.nb_camera_entry.get()
         chemin_stocker = self.chemin_dossier_entry.get()
         chemin_get_videos = self.chemin_video_entry.get()
         check_folders_checkbox = self.verification_checkbox.get()
-        #print(check_folders_checkbox)
         if check_folders_checkbox:
             return True
         elif nb_camera.isdigit() and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) == 0 and chemin_get_videos == '' and not check_folders_checkbox :          # Verifier si nb_camera est bien un entier, si le chemin rensigner est existant et si le chemin renseigner est vide, si il n'y a rien d'entré dans lentré des videos surveillances et si la checkbox est bien décocher.
@@ -103,19 +99,13 @@ class App(customtkinter.CTk):
         elif nb_camera == '' and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) > 0 and  os.path.exists(chemin_get_videos) and len(os.listdir(chemin_get_videos)) > 0 and not check_folders_checkbox :   #verifie si le nb de camera est null, si le chemin stocker existe et n'est pas vide, si le chemin pour les videos existe bien et n'est pas vide, si la checkbox n'est pas coché.
             return True
         
-            
+    #Change the button state (normal or disabled)
     def valider_button_event(self):
-        bool = self.get_entrys()
+        bool = self.get_entrys()            #Get if the checkbox is checked
         if bool :
             self.valider_button.configure(state="normal")
         else :
             self.valider_button.configure(state="disabled")
-        #print(f"nb_cam = {nb_camera}, chemin stocker = {chemin_stocker}, chemin_get_videos {chemin_get_videos}")
-
-
-    def open_input_dialog_event(self):
-        dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
-        print("CTkInputDialog:", dialog.get_input())
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -139,27 +129,42 @@ class App(customtkinter.CTk):
             fonctions.creer_dossier(nb_camera, chemin_stocker)
         elif chemin_stocker!= '' and chemin_get_videos != '':
             #appel la fonction pour déplacer les videos des cameras
-            fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
+           list_video_err, list_bad_extensions = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
+           self.open_err_window(list_video_err, list_bad_extensions)
     
     def functions_calls(self, event):
-       # self.check_path(self.chemin_dossier_entry.get())
        self.valider_button_event()
     
-    #def afficher_taille_frame(self, event=None):
-    #    largeur_sidebar_frame = self.sidebar_frame.winfo_width()
-    #    hauteur_sidebar_frame = self.sidebar_frame.winfo_height()
-    #    heuteur_main_frame = self.main_frame.winfo_height()
-    #    largeur_main_frame = self.main_frame.winfo_width()
-    #    width = self.winfo_width()
-    #    height = self.winfo_height() 
-    #    print(f"Largeur window : {width} pixels")
-    #    print(f"Hauteur window : {height} pixels")
-    #    print(f"Largeur du frame {largeur_sidebar_frame} pixels")
-    #    print(f"Hauteur du frame {hauteur_sidebar_frame} pixels")
-    #    print(f"Largeur du frame {largeur_main_frame} pixels")
-    #    print(f"Hauteur du frame {heuteur_main_frame} pixels")
-        
     
+    #Fonction to open the 2nd window to show errors while moving files
+    def open_err_window(self, list_video_err, list_bad_extensions):
+        string_list_bad_extensions = '\n'.join(list_bad_extensions)
+        string_list_video_err = '\n'.join(list_video_err)
+        
+        deuxieme_fenetre = customtkinter.CTkToplevel(self)
+        deuxieme_fenetre.title("Erreurs")
+
+        #Define the 2nd window with grid configuration
+        deuxieme_fenetre.grid_rowconfigure((0,1,2,3,4), weight=1)
+        deuxieme_fenetre.grid_columnconfigure(0, weight=1)
+        
+        # Ajouter des widgets à la deuxième fenêtre
+        label_err_extension = customtkinter.CTkLabel(deuxieme_fenetre, text="Liste des erreurs du a une mauvaise extension de fichier : ")
+        label_err_folder_extension = customtkinter.CTkLabel(deuxieme_fenetre, text=string_list_bad_extensions)
+        label_err_video = customtkinter.CTkLabel(deuxieme_fenetre, text="Liste des fichiers qui n'ont pas pu etre déplacé : ")
+        label_string_list_video_err = customtkinter.CTkLabel(deuxieme_fenetre, text=string_list_video_err)
+        button_quit = customtkinter.CTkButton(deuxieme_fenetre, text="ok", command=close_window)
+        label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
+        label_err_folder_extension.grid(row=1, column=0, pady=5)
+        label_err_video.grid(row=2, column=0, pady=(20,5))
+        label_string_list_video_err.grid(row=3, column=0, pady=5)
+        button_quit.grid(row=4, column=0, pady=5)
+        
+        deuxieme_fenetre.attributes('-topmost', True)
+        deuxieme_fenetre.lift()
+
+    def close_window():
+        deuxieme_fenetre.destroy()
 
 if __name__ == "__main__":
     app = App()

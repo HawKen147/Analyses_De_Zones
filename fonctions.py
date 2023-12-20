@@ -64,18 +64,26 @@ def check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_
 #Fonction qui va permetre de deplacer les videos dans les dossiers creer precedement
 def get_video_cam_files(path_video_camera, path_folder_camera):
     list_video_err = []
+    list_bad_extensions = []
     list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier
     #print(f"liste des videos : {list_videos_cam}")
     for video_cam in list_videos_cam:
         list_name_video_cam = format_name_video(video_cam)
-        res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
-        print(list_name_video_cam)
-        if res == 1 :
-            #appel de la fonction
-            print('test')
+        if check_extension_folder(video_cam):
+            res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
+            print(list_name_video_cam)
+            if res == 1 :
+                update_incomplet_folder(path_folder_camera, list_name_video_cam)
+            else :
+                list_video_err.append(video_cam)
         else :
-            list_video_err.append(res)
-    print(list_video_err)
+            list_bad_extensions.append(video_cam)
+    
+    print(f"liste mauvaises extensions : {list_bad_extensions}")
+    print(f"liste des videos err : {list_video_err}")
+    
+    return list_video_err, list_bad_extensions
+
     
 #Fonction qui déplace les videos dans les bon dossiers
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
@@ -134,6 +142,17 @@ def get_list_videos_cam(path):
     fichiers = os.listdir(path)
     return fichiers
 
+
+def check_extension_folder(video_cam):
+    extension = video_cam.split('.')
+    if extension[-1] == "asf":
+        return True
+    else:
+        return False
+
+
+def update_incomplet_folder(path, name_cam_folder):
+    print('ok')
 
 def check_folders(path):
     print('ok')
