@@ -1,5 +1,5 @@
 import os #accede aux parametre de l'os / dossier
-import shutil #permet de deplacer les fichiers dans d'autres fichiers
+import shutil #permet la gestion de dossiers / fichiers
 
 #Verifie que tout les fichiers soit bien correctement creer en verifiant si leur chemin existe
 #Si les chemin existent, alors return true
@@ -79,8 +79,8 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
         else :
             list_bad_extensions.append(video_cam)
     
-    print(f"liste mauvaises extensions : {list_bad_extensions}")
-    print(f"liste des videos err : {list_video_err}")
+    #print(f"liste mauvaises extensions : {list_bad_extensions}")
+    #print(f"liste des videos err : {list_video_err}")
     
     return list_video_err, list_bad_extensions
 
@@ -156,3 +156,5 @@ def update_incomplet_folder(path, name_cam_folder):
 
 def check_folders(path):
     print('ok')
+
+

@@ -16,14 +16,11 @@ class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
-        self.deuxieme_fenetre = None
 
         # configure window
         self.title("Move Folder")
         self.minsize(825,500)
         self.geometry(f"{width}x{height}")
-        
-        
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(0, weight=0)
@@ -128,11 +125,18 @@ class App(customtkinter.CTk):
             print("check les fichiers manquants")
         elif nb_camera != '' and chemin_stocker!= '':
             #appel la fonction pour créer les dossiers
-            fonctions.creer_dossier(nb_camera, chemin_stocker)
+            if (fonctions.creer_dossier(nb_camera, chemin_stocker)):
+                self.open_no_err_window()
+            else :
+                self.open_simple_err_window()
+
         elif chemin_stocker!= '' and chemin_get_videos != '':
             #appel la fonction pour déplacer les videos des cameras
-           list_video_err, list_bad_extensions = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
-           self.open_err_window(list_video_err, list_bad_extensions)
+            list_video_err, list_bad_extensions = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
+            if (list_video_err or list_bad_extensions):
+                self.open_err_window(list_video_err, list_bad_extensions)
+            else :
+                self.open_no_err_window()
     
     def functions_calls(self, event):
        self.valider_button_event()
@@ -143,33 +147,99 @@ class App(customtkinter.CTk):
         string_list_bad_extensions = '\n'.join(list_bad_extensions)
         string_list_video_err = '\n'.join(list_video_err)
         
-        # Utilisez self.deuxieme_fenetre pour définir la fenêtre
-        self.deuxieme_fenetre = customtkinter.CTkToplevel(self)
-        self.deuxieme_fenetre.title("Erreurs")
+        # Utilisez self.err_window pour définir la fenêtre
+        self.err_window = customtkinter.CTkToplevel(self)
+        self.err_window.title("Erreurs")
     
         # Define the 2nd window with grid configuration
-        self.deuxieme_fenetre.grid_rowconfigure((0,1,2,3,4), weight=1)
-        self.deuxieme_fenetre.grid_columnconfigure(0, weight=1)
+        self.err_window.grid_rowconfigure((0,1,2,3,4), weight=1)
+        self.err_window.grid_columnconfigure(0, weight=1)
         
         # Ajouter des widgets à la deuxième fenêtre
-        label_err_extension = customtkinter.CTkLabel(self.deuxieme_fenetre, text="Liste des erreurs du a une mauvaise extension de fichier : ")
-        label_err_folder_extension = customtkinter.CTkLabel(self.deuxieme_fenetre, text=string_list_bad_extensions)
-        label_err_video = customtkinter.CTkLabel(self.deuxieme_fenetre, text="Liste des fichiers qui n'ont pas pu etre déplacé : ")
-        label_string_list_video_err = customtkinter.CTkLabel(self.deuxieme_fenetre, text=string_list_video_err)
-        button_quit = customtkinter.CTkButton(self.deuxieme_fenetre, text="ok", command=self.close_window)
+        label_err_extension = customtkinter.CTkLabel(self.err_window, text="Liste des erreurs du à une mauvaise extension de fichier : ")
+        label_err_folder_extension = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_bad_extensions)
+        label_err_video = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui n'ont pas pu être déplacé : ")
+        label_string_list_video_err = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
+        button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
         label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
         label_err_folder_extension.grid(row=1, column=0, pady=5)
         label_err_video.grid(row=2, column=0, pady=(20,5))
         label_string_list_video_err.grid(row=3, column=0, pady=5)
         button_quit.grid(row=4, column=0, pady=5)
         
-        self.deuxieme_fenetre.attributes('-topmost', True)
-        self.deuxieme_fenetre.lift()
+        self.err_window.attributes('-topmost', True)
+        self.err_window.lift()
+
+    def open_no_err_window(self):        
+        # Utilisez self.err_window pour définir la fenêtre
+        self.no_err_window = customtkinter.CTkToplevel(self)
+        self.no_err_window.title("Erreurs")
+        no_err_window_width = 220
+        no_err_window_height = 100
+
+        # Define the 2nd window with grid configuration
+        self.no_err_window.grid_rowconfigure((0,1), weight=1)
+        self.no_err_window.grid_columnconfigure(0, weight=1)
+        
+        # Ajouter des widgets à la deuxième fenêtre
+        label_no_err = customtkinter.CTkLabel(self.no_err_window, text="Aucune erreur détecté", text_color="#40f561")
+        button_quit = customtkinter.CTkButton(self.no_err_window, text="OK", command=self.close_window)
+        label_no_err.grid(row=0, column=0, pady=(20,5), padx=20)
+        button_quit.grid(row=1, column=0, pady=5)
+
+        # Définir les coordonnées de la fenêtre au centre de l'écran
+        x, y = self.window_center(no_err_window_width, no_err_window_height)
+        print(f"x = {x} y = {y}")
+        self.no_err_window.geometry(f"{no_err_window_width}x{no_err_window_height}+{x}+{y}")
+        
+        self.no_err_window.attributes('-topmost', True)
+        self.no_err_window.lift()
+
+
+    def open_simple_err_window(self):
+                # Utilisez self.err_window pour définir la fenêtre
+        self.simple_err_window = customtkinter.CTkToplevel(self)
+        self.simple_err_window.title("Erreurs")
+        simple_err_window_width = 220
+        simple_err_window_height = 100
+
+        # Define the 2nd window with grid configuration
+        self.simple_err_window.grid_rowconfigure((0,1), weight=1)
+        self.simple_err_window.grid_columnconfigure(0, weight=1)
+        
+        # Ajouter des widgets à la deuxième fenêtre
+        label_no_err = customtkinter.CTkLabel(self.simple_err_window, text="Un problème est survenue lors de la création des dossiers", text_color="red")
+        button_quit = customtkinter.CTkButton(self.simple_err_window, text="OK", command=self.close_window)
+        label_no_err.grid(row=0, column=0, pady=(20,5), padx=20)
+        button_quit.grid(row=1, column=0, pady=5)
+
+        # Définir les coordonnées de la fenêtre au centre de l'écran
+        x, y = self.window_center(simple_err_window_width, simple_err_window_height)
+        print(f"x = {x} y = {y}")
+        self.simple_err_window_height.geometry(f"{simple_err_window_width}x{simple_err_window_height}+{x}+{y}")
+        
+        self.simple_err_window_height.attributes('-topmost', True)
+        self.simple_err_window_height.lift()
 
     def close_window(self):
-        print("je suis cliqué")
-        if self.deuxieme_fenetre:
-            self.deuxieme_fenetre.destroy()
+        if self.err_window:
+            self.err_window.destroy()
+        elif self.no_err_window:
+            self.no_err_window.destroy()
+        elif self.simple_err_window:
+            self.simple_err_window.destroy()
+
+    def window_center(self,window_width, window_height):
+        # Obtenez les dimensions de l'écran
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        
+        # Calculer les coordonnées pour centrer la fenêtre
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+
+        return x,y
+
 
 if __name__ == "__main__":
     app = App()

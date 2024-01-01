@@ -121,7 +121,6 @@ label_nb_camera = ctk.CTkLabel(fenetre, text=("Veuillez saisir le nombre de came
 entry_nb_camera = ctk.CTkEntry(fenetre, width=50)
 #entry pour le chemin pour creer les dossiers
 entry_chemin_dossier_nb_camera = ctk.CTkEntry(fenetre, width=400)
-
 button_valide_creation_cam = ctk.CTkButton(fenetre, text=("Creer dossiers camera"), command=lambda : creer_dossier(entry_nb_camera.get(), entry_chemin_dossier_nb_camera.get() ))
 
 # Crée les étiquettes (labels) pour les champs d'entrée (Entrys)
