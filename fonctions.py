@@ -11,13 +11,13 @@ def verifie_chemin_dossiers(path):
             return False
 
 #Fonction qui verifie si il y a des fichiers dans le chemin spécifié
-#retourne la liste des fichier contenu dans le chemin spécifié
+#retourne la liste des fichiers contenu dans le chemin spécifié
 def check_nb_folder(path):
     list_fichiers = os.listdir(path)
     return list_fichiers
     
 #Fonction qui verifie si le texte entré est un entier ou pas
-#return true si le nombre rentré est un entier
+#return true si le nombre entré est un entier
 def verifie_str_is_int(texte):
     try:
         int(texte)
@@ -36,7 +36,7 @@ def creer_dossier(nb_camera, path_dossier):
         rampe_cam_path = os.path.join(cam_path, "rampe")
         courir_cam_path = os.path.join(cam_path, "courir")
         marche_cam_path = os.path.join(cam_path, "marche")
-        # Créez les dossiers
+        # Créer les dossiers
         os.makedirs(cam_path)
         os.makedirs(rampe_cam_path)
         os.makedirs(courir_cam_path)
@@ -47,7 +47,7 @@ def creer_dossier(nb_camera, path_dossier):
             fichier.write(" DM \n DC \n DR \n MM \n MC \n MR \n FM \n FC \n FR \n")
             pass  # Ne rien écrire dans le fichier
 
-        #appel de fonction qui verifie si chaque fichier a bien été creer sinon retourne false 
+        #appel de fonction qui verifie si chaque fichier a bien été créer sinon retourne false 
         if not check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_path, txt_file):
             return False
     return True
@@ -66,22 +66,17 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
     list_video_err = []
     list_bad_extensions = []
     list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier
-    #print(f"liste des videos : {list_videos_cam}")
     for video_cam in list_videos_cam:
         list_name_video_cam = format_name_video(video_cam)
         if check_extension_folder(video_cam):
             res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
-            print(list_name_video_cam)
             if res == 1 :
                 update_incomplet_folder(path_folder_camera, list_name_video_cam)
             else :
                 list_video_err.append(video_cam)
         else :
             list_bad_extensions.append(video_cam)
-    
-    #print(f"liste mauvaises extensions : {list_bad_extensions}")
-    #print(f"liste des videos err : {list_video_err}")
-    
+
     return list_video_err, list_bad_extensions
 
     
@@ -104,7 +99,6 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     
     path_folder_camera += "\\" + folder_cam + "\\" + type_passage
     path_video_camera += "\\" + video_name
-    #print(f"chemin video = {path_video_camera} chemin dossier = {path_folder_camera}")
     if not os.path.exists(path_folder_camera):
         return path_folder_camera
     
@@ -142,7 +136,7 @@ def get_list_videos_cam(path):
     fichiers = os.listdir(path)
     return fichiers
 
-
+#Verfie que l'extension du fichier soit bien un fichier d'extension .asf
 def check_extension_folder(video_cam):
     extension = video_cam.split('.')
     if extension[-1] == "asf":
