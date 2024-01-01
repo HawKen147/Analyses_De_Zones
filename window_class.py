@@ -5,8 +5,11 @@ import tkinter.messagebox
 import customtkinter
 
 #Faire la fonction check folders
+#Faire la fonction qui update le fichier texte lorsqu'un nouveau fichier est ajouté.
+#avant d'ajouter le fichier, il faut verifier si le fichier est deja existant. de toute facon si il est deja existant le fichier n'est pas déplacer mais creer une erreur
 
-customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
+
+customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 width = 825
@@ -239,7 +242,6 @@ class App(customtkinter.CTk):
         y = (screen_height - window_height) // 2
 
         return x,y
-
 
 if __name__ == "__main__":
     app = App()
