@@ -215,18 +215,18 @@ class App(customtkinter.CTk):
 
         # Définir les coordonnées de la fenêtre au centre de l'écran
         x, y = self.window_center(simple_err_window_width, simple_err_window_height)
-        print(f"x = {x} y = {y}")
         self.simple_err_window_height.geometry(f"{simple_err_window_width}x{simple_err_window_height}+{x}+{y}")
         
         self.simple_err_window_height.attributes('-topmost', True)
         self.simple_err_window_height.lift()
 
+    #ferme la bonne fenetre correspondante
     def close_window(self):
-        if self.err_window:
+        if hasattr(self, 'err_window') and self.err_window:
             self.err_window.destroy()
-        elif self.no_err_window:
+        elif hasattr(self, 'no_err_window') and self.no_err_window:
             self.no_err_window.destroy()
-        elif self.simple_err_window:
+        elif hasattr(self, 'simple_err_window') and self.simple_err_window:
             self.simple_err_window.destroy()
 
     def window_center(self,window_width, window_height):
