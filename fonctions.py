@@ -1,5 +1,5 @@
-import os #accede aux parametre de l'os / dossier
-import shutil #permet la gestion de dossiers / fichiers
+import os       #accede aux parametre de l'os / dossier
+import shutil   #permet la gestion de dossiers / fichiers
 
 #Verifie que tout les fichiers soit bien correctement creer en verifiant si leur chemin existe
 #Si les chemin existent, alors return true
@@ -109,7 +109,7 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
 #Fonction qui prend le nom entier du fichier video
 #Met dans une liste le numero de la camera [0]
 #Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, jour/mois/année heure:min:00, DR.asf]
-#Attention, si l'utilisateur n'a pas afficher les extensions de fichier, il y a un risque que cela ne marhce pas3
+#Attention, si l'utilisateur n'a pas afficher les extensions de fichier, il y a un risque que cela ne marhce pas
 def format_name_video(nom_video):
     #nom_video = "BAIXAS_TH05-2023-09-07_10h42min44s990ms_DR.asf" format type du nom de fichier a traiter
    try: 
