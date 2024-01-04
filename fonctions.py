@@ -145,7 +145,7 @@ def check_extension_folder(video_cam):
         return False
 
 
-def update_incomplet_folder(path, name_cam_folder):
+def update_incomplet_txt(path, name_cam_folder):
     print('ok')
 
 def check_folders(path):
