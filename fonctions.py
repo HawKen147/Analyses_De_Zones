@@ -151,4 +151,3 @@ def update_incomplet_txt(path, name_cam_folder):
 def check_folders(path):
     print('ok')
 
-
