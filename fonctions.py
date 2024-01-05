@@ -82,19 +82,8 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
     
 #Fonction qui déplace les videos dans les bon dossiers
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
-    try :
-        numero_cam = list_name_video_cam[0][2:]
-        folder_cam = "CAM_" + numero_cam
-        type_passage = list_name_video_cam[-1][1]
-        if type_passage == 'R':
-            type_passage = "rampe"
-        elif type_passage == 'C':
-            type_passage = "courir"
-        elif type_passage == "M":
-            type_passage = "marche"
-        else:
-            return list_name_video_cam
-    except :
+    type_passage, folder_cam = get_passage_cam_number(list_name_video_cam)
+    if type_passage == False:
         return list_name_video_cam
     
     path_folder_camera += "\\" + folder_cam + "\\" + type_passage
@@ -105,13 +94,32 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     shutil.move(path_video_camera, path_folder_camera)
     return 1
 
+    
+def get_passage_cam_number(list_name_video_cam):
+    try :
+        numero_cam = list_name_video_cam[0][2:]
+        folder_cam = "CAM_" + numero_cam
+        type_passage = list_name_video_cam[-1][1]
+        if type_passage == 'R':
+            type_passage = "rampe"
+            return type_passage , folder_cam
+        elif type_passage == 'C':
+            type_passage = "courir"
+            return type_passage, folder_cam
+        elif type_passage == "M":
+            type_passage = "marche"
+            return type_passage, folder_cam
+        else:
+            return False
+    except :
+        return False
+    
 
 #Fonction qui prend le nom entier du fichier video
 #Met dans une liste le numero de la camera [0]
 #Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, jour/mois/année heure:min:00, DR.asf]
 #Attention, si l'utilisateur n'a pas afficher les extensions de fichier, il y a un risque que cela ne marhce pas
 def format_name_video(nom_video):
-    #nom_video = "BAIXAS_TH05-2023-09-07_10h42min44s990ms_DR.asf" format type du nom de fichier a traiter
    try: 
         nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video
         nom_video_nCam_date = nom_video.pop(1).split("-")   #recupere et supprime la case 1 de la list creer precedement, sépare la chaine de caractere a chaque '-' et en creer un tableau
@@ -132,7 +140,7 @@ def format_name_video(nom_video):
    
 #retourne la liste des fichier contenu dans le chemin spécifié
 def get_list_videos_cam(path):
-    # Utilisez la fonction os.listdir() pour obtenir la liste des fichiers dans le dossier
+    # Utilise la fonction os.listdir() pour obtenir la liste des fichiers dans le dossier
     fichiers = os.listdir(path)
     return fichiers
 
@@ -146,8 +154,30 @@ def check_extension_folder(video_cam):
 
 
 def update_incomplet_txt(path, name_cam_folder):
-    print('ok')
+    type_passage, numero_cam = get_passage_cam_number(name_cam_folder)
+    type_passage = name_cam_folder[-1][:2]
+    print(type_passage)
+    path += "\\" + numero_cam + "\\" + "incomplet.txt"
+    del_passage_type_txt(path, type_passage)
+    
 
+def del_passage_type_txt(fichier_path, ligne_a_supprimer):
+    # Lecture du contenu du fichier
+    with open(fichier_path, 'r') as fichier:
+        lignes = fichier.readlines()
+        print("Contenu avant suppression :")
+        for ligne in lignes:
+            print(ligne.strip())
+
+    # Suppression de la ligne 
+    nouvelle_ligne = [ligne for ligne in lignes if ligne.strip() != ligne_a_supprimer]
+    print(f"nouvelle ligne = {nouvelle_ligne}")
+
+    # Écriture du nouveau contenu dans le fichier
+    with open(fichier_path, 'w') as fichier:
+        fichier.writelines(nouvelle_ligne)
+
+        
 def check_folders(path):
     print('ok')
 
