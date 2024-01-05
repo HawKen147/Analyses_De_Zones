@@ -71,7 +71,7 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
         if check_extension_folder(video_cam):
             res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
             if res == 1 :
-                update_incomplet_folder(path_folder_camera, list_name_video_cam)
+                update_incomplet_txt(path_folder_camera, list_name_video_cam)
             else :
                 list_video_err.append(video_cam)
         else :
