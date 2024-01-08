@@ -123,9 +123,9 @@ class App(customtkinter.CTk):
         nb_camera = self.nb_camera_entry.get()
         chemin_stocker = self.chemin_dossier_entry.get()
         chemin_get_videos = self.chemin_video_entry.get()
-        if self.verification_checkbox.get():
+        if self.verification_checkbox.get() and chemin_stocker != "":
             #appel la fonction pour verifier tous les fichiers
-            print("check les fichiers manquants")
+            fonctions.check_folders(chemin_stocker)
         elif nb_camera != '' and chemin_stocker!= '':
             #appel la fonction pour créer les dossiers
             if (fonctions.creer_dossier(nb_camera, chemin_stocker)):

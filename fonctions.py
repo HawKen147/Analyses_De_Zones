@@ -94,7 +94,6 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     shutil.move(path_video_camera, path_folder_camera)
     return 1
 
-    
 def get_passage_cam_number(list_name_video_cam):
     try :
         numero_cam = list_name_video_cam[0][2:]
@@ -114,7 +113,6 @@ def get_passage_cam_number(list_name_video_cam):
     except :
         return False
     
-
 #Fonction qui prend le nom entier du fichier video
 #Met dans une liste le numero de la camera [0]
 #Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, jour/mois/année heure:min:00, DR.asf]
@@ -152,26 +150,19 @@ def check_extension_folder(video_cam):
     else:
         return False
 
-
 def update_incomplet_txt(path, name_cam_folder):
     type_passage, numero_cam = get_passage_cam_number(name_cam_folder)
     type_passage = name_cam_folder[-1][:2]
-    print(type_passage)
     path += "\\" + numero_cam + "\\" + "incomplet.txt"
     del_passage_type_txt(path, type_passage)
     
-
 def del_passage_type_txt(fichier_path, ligne_a_supprimer):
     # Lecture du contenu du fichier
     with open(fichier_path, 'r') as fichier:
         lignes = fichier.readlines()
-        print("Contenu avant suppression :")
-        for ligne in lignes:
-            print(ligne.strip())
 
     # Suppression de la ligne 
     nouvelle_ligne = [ligne for ligne in lignes if ligne.strip() != ligne_a_supprimer]
-    print(f"nouvelle ligne = {nouvelle_ligne}")
 
     # Écriture du nouveau contenu dans le fichier
     with open(fichier_path, 'w') as fichier:
@@ -179,5 +170,12 @@ def del_passage_type_txt(fichier_path, ligne_a_supprimer):
 
         
 def check_folders(path):
-    print('ok')
+    path = "C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera"
+    list_fichiers = os.listdir(path)
+    for folder in list_fichiers:
+        if folder[0:4] == "CAM_":
+            print(True)
+        else :
+            print(False)
+    print(list_fichiers)
 
