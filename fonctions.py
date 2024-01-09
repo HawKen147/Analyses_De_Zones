@@ -170,12 +170,18 @@ def del_passage_type_txt(fichier_path, ligne_a_supprimer):
 
         
 def check_folders(path):
+    check_dictionnary = {}
     path = "C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera"
+    txt_file = f"C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera\\incomplet.txt"
     list_fichiers = os.listdir(path)
     for folder in list_fichiers:
         if folder[0:4] == "CAM_":
-            print(True)
+            txt_file = f"C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera\\{folder}\\incomplet.txt"
+            with open(txt_file, 'r') as fichier:
+                contenu = fichier.read()
+                contenu_sans_espaces = contenu.replace('\n', '')
+                check_dictionnary[folder] = contenu_sans_espaces
         else :
-            print(False)
-    print(list_fichiers)
+            pass
+    return check_dictionnary
 
