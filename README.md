@@ -1,6 +1,6 @@
 # Application Analayse de Zones
 ## Objectifs de l'application
-- Facilité la création de fichiers
+- Faciliter la création de dossiers
 - Gagner du temps lors de la vérification si il manque des dossiers / fichiers
 - Limite les erreurs de manipulation
 - Création du fichier excel de maniere simple et rapide
