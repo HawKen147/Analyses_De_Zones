@@ -6,7 +6,7 @@
 - Création du fichier excel de manière simple et rapide
 
 ## Version actuel V0.5
-La version V0.5 est une version minimaliste qui replit presque tout les objectifs. Le visuel est terminé mais reste à être confirmé par les utilisateurs.
+La version V0.5 est une version minimaliste qui remplit presque tous les objectifs. Le visuel est terminé mais reste à être confirmé par les utilisateurs.
 ### V0.5
 La v0.5 permet de créer les dossiers qui permettront de stocker les videos d'eesaies de zones 
 ```
