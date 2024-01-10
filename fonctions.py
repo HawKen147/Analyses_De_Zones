@@ -160,31 +160,29 @@ def del_passage_type_txt(fichier_path, ligne_a_supprimer):
     # Lecture du contenu du fichier
     with open(fichier_path, 'r') as fichier:
         lignes = fichier.readlines()
-
     # Suppression de la ligne 
     nouvelle_ligne = [ligne for ligne in lignes if ligne.strip() != ligne_a_supprimer]
-
     # Écriture du nouveau contenu dans le fichier
     with open(fichier_path, 'w') as fichier:
         fichier.writelines(nouvelle_ligne)
 
         
 def check_folders(path):
-    check_dictionnary = {}
-    path = "C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera"
-    txt_file = f"C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera\\incomplet.txt"
-    list_fichiers = os.listdir(path)
-    for folder in list_fichiers:
-        if folder[0:4] == "CAM_":
-            txt_file = f"C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera\\{folder}\\incomplet.txt"
-            with open(txt_file, 'r') as fichier:
-                contenu = fichier.read()
-                contenu_sans_espaces = contenu.replace('\n', '')
-                check_dictionnary[folder] = contenu_sans_espaces
-        else :
-            pass
-    check_dictionnary = check_value_dict(check_dictionnary)
-    return check_dictionnary
+    if verifie_chemin_dossiers(path):
+        check_dictionnary = {}
+        txt_file = path + "\\incomplet.txt"
+        list_fichiers = os.listdir(path)
+        for folder in list_fichiers:
+            if folder[0:4] == "CAM_":
+                txt_file = f"C:\\Users\\benoit\\Documents\\test_camera\\dossier_camera\\{folder}\\incomplet.txt"
+                with open(txt_file, 'r') as fichier:
+                    contenu = fichier.read()
+                    contenu_sans_espaces = contenu.replace('\n', '')
+                    check_dictionnary[folder] = contenu_sans_espaces
+        check_dictionnary = check_value_dict(check_dictionnary)
+        return check_dictionnary
+    else:
+        return False
 
 def check_value_dict(dict_check):
     for cle,valeur in dict_check.items():
