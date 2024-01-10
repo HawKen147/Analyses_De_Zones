@@ -3,7 +3,7 @@
 - Faciliter la création de dossiers
 - Gagner du temps lors de la vérification si il manque des dossiers / fichiers
 - Limite les erreurs de manipulation
-- Création du fichier excel de maniere simple et rapide
+- Création du fichier excel de manière simple et rapide
 
 ## Version actuel V0.5
 La version V0.5 est une version minimaliste qui replit presque tout les objectifs. Le visuel est terminé mais reste à être confirmé par les utilisateurs.
