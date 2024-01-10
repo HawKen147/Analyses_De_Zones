@@ -50,8 +50,8 @@ class App(customtkinter.CTk):
 
 
         #Main : Essaies Zones
-        self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des cameras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacés dans les dossiers crée précédement. \n Le nom des vidéos doivent êtres comme suis : 'Nom_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la camera (00 à <99) ")
-        self.creation_dossiers_label = customtkinter.CTkLabel(self, anchor='center', text="Arborescence des dossiers créer :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
+        self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Pour commencer, choisissez si vous voulez créer les fichiers afin de mettre les vidéos des caméras dedans. \n Ensuite, assurez vous que le dossier fournis soit vide pour créer les dossiers des caméras. \n Enfin donnez le chemin des vidéos pour quelles soient deplacées dans les dossiers crée précédement. \n Le nom des vidéos doivent être comme suis : 'NomDuSite_THXX-aaaa-mm-jj_10h44min02s083ms_DM.asf'. \n THXX avec XX le numero de la caméra (00 à <99) ")
+        self.creation_dossiers_label = customtkinter.CTkLabel(self, anchor='center', text="Arborescence des dossiers créés :\n CAM_XX \n         |_rampe \n        |_courir \n           |_marche \n                    |_incomplet.txt")
         self.nb_camera_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Nombre de dossier à créer")
         checked = customtkinter.IntVar()
         self.verification_checkbox = customtkinter.CTkCheckBox(self, variable=checked, onvalue=True, offvalue=False, text="Cocher pour voir les fichiers manquants", command=self.valider_button_event)
