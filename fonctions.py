@@ -183,5 +183,11 @@ def check_folders(path):
                 check_dictionnary[folder] = contenu_sans_espaces
         else :
             pass
+    check_dictionnary = check_value_dict(check_dictionnary)
     return check_dictionnary
 
+def check_value_dict(dict_check):
+    for cle,valeur in dict_check.items():
+        if valeur == '':
+            dict_check[cle] = "le dossier est complet"
+    return dict_check

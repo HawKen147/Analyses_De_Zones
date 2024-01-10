@@ -1,27 +1,4 @@
-def del_passage_type_txt(fichier_path, ligne_a_supprimer):
-    with open(fichier_path, 'r') as fichier:
-        lignes = fichier.readlines()
+dict_check = {'CAM_01': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_02': '', 'CAM_03': ' DC  DR  MM  MC  MR  FC  FR ', 'CAM_04': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_05': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_06': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_07': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_08': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_09': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_10': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_11': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_12': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_13': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_14': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_15': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_16': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_17': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_18': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_19': ' DM  DC  DR  MM  MC  MR  FM  FC  FR ', 'CAM_20': ' DM  DC  DR  MM  MC  MR  FM  FC  FR '}
 
-    # Supprime la ligne spécifique
-    lignes = [ligne for ligne in lignes if ligne.strip() != ligne_a_supprimer]
-
-    with open(fichier_path, 'w') as fichier:
-        fichier.writelines(lignes)
-        
-        
-#chemin_fichier = "C:\Users\pierry.benoit\Documents\dossiers_camera\CAM_14"
-ligne_a_supprimer = "FC"
-path = "C:\\Users\\pierry.benoit\\Documents\dossiers_camera\\CAM_14\\incomplet.txt"
-
-# Lecture du contenu du fichier
-with open(path, 'r') as fichier:
-    lignes = fichier.readlines()
-
-# Suppression de la ligne contenant "FR"
-nouvelles_lignes = [ligne for ligne in lignes if ligne_a_supprimer not in ligne]
-
-# Écriture du nouveau contenu dans le fichier
-with open(path, 'w') as fichier:
-    fichier.writelines(nouvelles_lignes)
-
-print(f"La ligne contenant {ligne_a_supprimer} a été supprimée.")
+for key, value in dict_check:
+    print(key, value)

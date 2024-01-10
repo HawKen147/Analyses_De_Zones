@@ -125,24 +125,82 @@ class App(customtkinter.CTk):
         chemin_get_videos = self.chemin_video_entry.get()
         if self.verification_checkbox.get() and chemin_stocker != "":
             #appel la fonction pour verifier tous les fichiers
-            fonctions.check_folders(chemin_stocker)
+            dict_check = fonctions.check_folders(chemin_stocker)
+            self.win_err(dict_check=dict_check)
         elif nb_camera != '' and chemin_stocker!= '':
             #appel la fonction pour créer les dossiers
             if (fonctions.creer_dossier(nb_camera, chemin_stocker)):
-                self.open_no_err_window()
+                self.win_err(no_err='no_err')
             else :
-                self.open_simple_err_window()
+                self.win_err(simple_err = 'simple_err')
 
-        elif chemin_stocker!= '' and chemin_get_videos != '':
+        elif chemin_stocker != '' and chemin_get_videos != '':
             #appel la fonction pour déplacer les videos des cameras
             list_video_err, list_bad_extensions = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)
             if (list_video_err or list_bad_extensions):
-                self.open_err_window(list_video_err, list_bad_extensions)
+                self.win_err(list_video_err=list_video_err, list_bad_extensions=list_bad_extensions)
             else :
-                self.open_no_err_window()
+                self.win_err(no_err = 'no_err')
     
     def functions_calls(self, event):
        self.valider_button_event()
+
+
+    def win_err(self, **kwargs):
+        # Utilisez self.err_window pour définir la fenêtre
+        self.err_window = customtkinter.CTkToplevel(self)
+        self.err_window.title("Erreurs")
+        self.err_window.minsize(300,200)
+        # Define the 2nd window with grid configuration
+        self.err_window.grid_columnconfigure(0, weight=1)
+        
+        # Ajouter des widgets à la deuxième fenêtre
+        if 'string_list_bad_extensions'and 'string_list_video_err' in kwargs:
+            list_bad_extensions = kwargs['string_list_bad_extensions']
+            list_video_err = kwargs['string_list_video_err']
+            print(list_bad_extensions, list_video_err)
+            self.err_window.grid_rowconfigure((0,1,2,3,4), weight=1)
+            string_list_bad_extensions = '\n'.join(list_bad_extensions)
+            string_list_video_err = '\n'.join(list_video_err)
+            label_err_extension = customtkinter.CTkLabel(self.err_window, text="Liste des erreurs du à une mauvaise extension de fichier : ")
+            label_err_folder_extension = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_bad_extensions)
+            label_err_video = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui n'ont pas pu être déplacé : ")
+            label_string_list_video_err = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
+            label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
+            label_err_folder_extension.grid(row=1, column=0, pady=5)
+            label_err_video.grid(row=2, column=0, pady=(20,5))
+            label_string_list_video_err.grid(row=3, column=0, pady=5)
+            button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
+            button_quit.grid(row=4, column=0, pady=5)
+        elif 'dict_check' in kwargs:
+            err_str = ''
+            self.err_window.grid_rowconfigure((0,1,2), weight=1)
+            dict_check = kwargs.get('dict_check', {})
+            for key, value in dict_check.items():
+                err_str += key + ' ' + value + '\n'
+            label_titre = customtkinter.CTkLabel(self.err_window,text="Liste des fichiers manquants pour chaque dossiers")
+            label_no_err = customtkinter.CTkLabel(self.err_window, text=err_str)
+            button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
+            label_titre.grid(row=0, column=0, pady=(20,5), padx=20)
+            label_no_err.grid(row=1, column=0, pady=(20,5), padx=20, sticky='w')
+            button_quit.grid(row=2, column=0, pady=5)
+            pass
+        elif 'no_err' in kwargs:
+            self.err_window.grid_rowconfigure((0,1), weight=1)
+            label_no_err = customtkinter.CTkLabel(self.err_window, text="Aucune erreur détecté", text_color="#40f561")
+            button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
+            label_no_err.grid(row=0, column=0, pady=(20,5), padx=20)
+            button_quit.grid(row=1, column=0, pady=5)
+        elif 'simple_err' in kwargs:
+            self.err_window.grid_rowconfigure((0,1), weight=1)
+            label_no_err = customtkinter.CTkLabel(self.err_window, text="Un problème est survenue lors de la création des dossiers", text_color="red")
+            button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
+            label_no_err.grid(row=0, column=0, pady=(20,5), padx=20)
+            button_quit.grid(row=1, column=0, pady=5)
+        
+        self.err_window.attributes('-topmost', True)
+        self.err_window.lift()
+
     
     
     #Fonction to open the 2nd window to show errors while moving files
