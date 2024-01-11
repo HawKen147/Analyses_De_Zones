@@ -175,7 +175,6 @@ def check_folders(path):
         for folder in list_fichiers:
             if folder[0:4] == "CAM_":
                 txt_file = f"{path}\\{folder}\\incomplet.txt"
-                print(txt_file)
                 with open(txt_file, 'r') as fichier:
                     contenu = fichier.read()
                     contenu_sans_espaces = contenu.replace('\n', '')
