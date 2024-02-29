@@ -26,9 +26,11 @@ Il y a autant de dossier CAM_XX que de camera. Il suffit de les créer depuis l'
 ** Chaque nom de vidéos doit avoir un nom générique et le format .asf: ** NomDuSite_THXX-aaaa-mm-jj_00h00min00s000ms_DM.asf
 ** Avec la version 0.5, on ne peut pas encore créer de fichier excel. **
 ## Prochaines Mises à jours
+- Refaire l'interface utilisateur pour que ce soit plus simple
+- Faire une sorte de nom générique pour les nom de fichiers (moin de source d'erreurs et moin de source de au secours j'ai 170 vidéos avec un - au lieu de _ et je dois tout changer)
 - Ajouter la vérification des fichiers en double (si les deux fichiers on le même nom, ils ne peuvent pas être dans le même dossier, mais cela crée une erreur)
+- Vérification si le fichier est déjà mis (exemple le fichier xxxxx_DC existe deja, mais il peut y avoir plusieurs fichiers xxxxxx_DC)
 - Création du fichier excel avec toutes les informations utiles
 - Incorporer les analyses de vie a l'interface graphique
-- Refaire l'interface utilisateur pour que ce soit plus simple
 ### Rendu de l'application (front-end)
 ![Screenshot de l'application](https://www.aht.li/3826115/Capture_decran_2024-01-10_134231.png)
