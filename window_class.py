@@ -91,7 +91,7 @@ class App(customtkinter.CTk):
         chemin_stocker = self.chemin_dossier_entry.get()
         chemin_get_videos = self.chemin_video_entry.get()
         check_folders_checkbox = self.verification_checkbox.get()
-        if check_folders_checkbox and chemin_stocker != '' and chemin_get_videos == '':
+        if check_folders_checkbox and chemin_stocker != '' :
             return True
         elif nb_camera.isdigit() and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) == 0 and chemin_get_videos == '' and not check_folders_checkbox :          # Verifier si nb_camera est bien un entier, si le chemin rensigner est existant et si le chemin renseigner est vide, si il n'y a rien d'entré dans lentré des videos surveillances et si la checkbox est bien décocher.
             return True
@@ -131,9 +131,9 @@ class App(customtkinter.CTk):
             else :
                 self.win_err(simple_err = 'simple_err')
         elif chemin_stocker != '' and chemin_get_videos != '':
-            list_video_err, list_bad_extensions = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)  #appel la fonction pour déplacer les videos des cameras
-            if (list_video_err or list_bad_extensions):
-                self.win_err(list_video_err=list_video_err, list_bad_extensions=list_bad_extensions)
+            list_video_err, list_bad_extensions, list_video_err_double = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)  #appel la fonction pour déplacer les videos des cameras
+            if (list_video_err or list_bad_extensions or list_video_err_double):
+                self.win_err(list_video_err=list_video_err, list_bad_extensions=list_bad_extensions, list_video_err_double=list_video_err_double)
             else :
                 self.win_err(no_err = 'no_err')
     
@@ -151,19 +151,25 @@ class App(customtkinter.CTk):
         if 'list_bad_extensions' in kwargs and 'list_video_err' in kwargs:
             list_bad_extensions = kwargs['list_bad_extensions']
             list_video_err = kwargs['list_video_err']
-            self.err_window.grid_rowconfigure((0,1,2,3,4), weight=1)
+            list_video_err_double = kwargs['list_video_err_double']
+            self.err_window.grid_rowconfigure((0,1,2,3,4,5,6), weight=1)          #On creer une fenetre de 6 lignes
             string_list_bad_extensions = '\n'.join(list_bad_extensions)
             string_list_video_err = '\n'.join(list_video_err)
+            string_list_video_err_double = '\n'.join(list_video_err_double)
             label_err_extension = customtkinter.CTkLabel(self.err_window, text="Liste des erreurs du à une mauvaise extension de fichier : ")
             label_err_folder_extension = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_bad_extensions)
             label_err_video = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui n'ont pas pu être déplacé : ")
             label_string_list_video_err = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
+            label_list_video_err_double = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui sont en doubles : ")
+            label_string_video_err_double = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
             label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
             label_err_folder_extension.grid(row=1, column=0, pady=5)
             label_err_video.grid(row=2, column=0, pady=(20,5))
             label_string_list_video_err.grid(row=3, column=0, pady=5)
+            label_list_video_err_double.grid(row=4, column=0, pady=(20,5))
+            label_string_video_err_double.grid(row=5,column=0, pady=5)
             button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
-            button_quit.grid(row=4, column=0, pady=5)
+            button_quit.grid(row=6, column=0, pady=5)
         elif 'dict_check' in kwargs:
             dict_check = kwargs.get('dict_check', {})
             err_str = ''

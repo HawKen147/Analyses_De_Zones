@@ -1,8 +1,8 @@
 import os       #accede aux parametre de l'os / dossier
 import shutil   #permet la gestion de dossiers / fichiers
 
-#Verifie que tout les fichiers soit bien correctement creer en verifiant si leur chemin existe
-#Si les chemin existent, alors return true
+#Verifie que tout les fichiers soient bien correctement créé en verifiant si leurs chemins existent
+#Si les chemins existent, alors return true
 def verifie_chemin_dossiers(path):
     if os.path.exists(path):
         if len(check_nb_folder(path)) > 0:
@@ -25,8 +25,8 @@ def verifie_str_is_int(texte):
     except ValueError:
         return False
     
-#fonction qui prend un chemin entrer par l'utilisateur
-#crée les dossier pour stocker les videos des cameras qui ont été édité
+#fonction qui prend un chemin entré par l'utilisateur
+#crée les dossiers pour stocker les videos des cameras qui ont été édité
 def creer_dossier(nb_camera, path_dossier):
     nb_camera = int(nb_camera)
     i = 0
@@ -65,19 +65,22 @@ def check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_
 def get_video_cam_files(path_video_camera, path_folder_camera):
     list_video_err = []
     list_bad_extensions = []
-    list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier
+    list_video_err_double = []
+    list_videos_cam = get_list_videos_cam(path_video_camera) #On recupere le nom de tout les fichiers videos qui sont dans le dossier des vidéos exportées
     for video_cam in list_videos_cam:
         list_name_video_cam = format_name_video(video_cam)
         if check_extension_folder(video_cam):
             res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
-            if res == 1 :
+            if res == True :
                 update_incomplet_txt(path_folder_camera, list_name_video_cam)
+            elif res == 2 :
+                list_video_err_double.append(video_cam)
             else :
                 list_video_err.append(video_cam)
         else :
             list_bad_extensions.append(video_cam)
 
-    return list_video_err, list_bad_extensions
+    return list_video_err, list_bad_extensions, list_video_err_double
 
     
 #Fonction qui déplace les videos dans les bon dossiers
@@ -86,18 +89,21 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     if type_passage == False:
         return list_name_video_cam
     
-    path_folder_camera += "\\" + folder_cam + "\\" + type_passage
-    path_video_camera += "\\" + video_name
+    path_folder_camera += f"\\{folder_cam}\\{type_passage}"
+    path_video_camera += f"\\{video_name}"
     if not os.path.exists(path_folder_camera):
         return path_folder_camera
     
-    shutil.move(path_video_camera, path_folder_camera)
-    return 1
+    if not check_file_exists(list_name_video_cam, path_folder_camera):
+        shutil.move(path_video_camera, path_folder_camera)
+        return True
+    else :
+        return 2
 
 def get_passage_cam_number(list_name_video_cam):
     try :
         numero_cam = list_name_video_cam[0][2:]
-        folder_cam = "CAM_" + numero_cam
+        folder_cam = f"CAM_{numero_cam}"
         type_passage = list_name_video_cam[-1][1]
         if type_passage == 'R':
             type_passage = "rampe"
@@ -116,7 +122,6 @@ def get_passage_cam_number(list_name_video_cam):
 #Fonction qui prend le nom entier du fichier video
 #Met dans une liste le numero de la camera [0]
 #Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, jour/mois/année heure:min:00, DR.asf]
-#Attention, si l'utilisateur n'a pas afficher les extensions de fichier, il y a un risque que cela ne marhce pas
 def format_name_video(nom_video):
    try: 
         nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video
@@ -150,12 +155,14 @@ def check_extension_folder(video_cam):
     else:
         return False
 
+#met a jour le fichier incomplet.txt
 def update_incomplet_txt(path, name_cam_folder):
     type_passage, numero_cam = get_passage_cam_number(name_cam_folder)
     type_passage = name_cam_folder[-1][:2]
     path += "\\" + numero_cam + "\\" + "incomplet.txt"
     del_passage_type_txt(path, type_passage)
-    
+
+#supprime le passage dans le dossier incomplet.txt
 def del_passage_type_txt(fichier_path, ligne_a_supprimer):
     # Lecture du contenu du fichier
     with open(fichier_path, 'r') as fichier:
@@ -166,7 +173,7 @@ def del_passage_type_txt(fichier_path, ligne_a_supprimer):
     with open(fichier_path, 'w') as fichier:
         fichier.writelines(nouvelle_ligne)
 
-        
+#Fonction qui permet d'afficher les fichiers manquants en récuperant les lignes du fichiers incomplet.txt  
 def check_folders(path):
     if verifie_chemin_dossiers(path):
         check_dictionnary = {}
@@ -184,8 +191,26 @@ def check_folders(path):
     else:
         return False
 
+#Si le fichier incompelt.txt est vide, retourne "le dossier est complet" pour la camera xx 
 def check_value_dict(dict_check):
     for cle,valeur in dict_check.items():
         if valeur == '':
             dict_check[cle] = "le dossier est complet"
     return dict_check
+
+
+#Fonction qui vérifie si le fichier a déplacer existe déjà ou pas
+def check_file_exists(file_name, path_to_folder):
+    files_in_directory = os.listdir(f"{path_to_folder}\\")
+    file_exist = False
+    for file in files_in_directory:
+        print(file_name[-1] in file)
+        print(f"le nom du fichier : {file_name} et le fichier : {file}")
+        if file_exist:
+            return file_exist
+        
+        if file_name[-1] in file:
+            file_exist = True
+        else:
+            file_exist = False
+        
