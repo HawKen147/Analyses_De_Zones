@@ -79,7 +79,6 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
                 list_video_err.append(video_cam)
         else :
             list_bad_extensions.append(video_cam)
-    print(f" list de fichiers en double : {list_video_err_double}")
     return list_video_err, list_bad_extensions, list_video_err_double
 
     
@@ -204,6 +203,5 @@ def check_file_exists(file_name, path_to_folder):
     files_in_directory = os.listdir(f"{path_to_folder}\\")
     for file in files_in_directory:
         if file_name[-1] in file:
-            print(file)
             return False
         
