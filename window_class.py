@@ -58,7 +58,9 @@ class App(customtkinter.CTk):
         self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour créer / stocker les vidéos")
         self.chemin_video_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour récupérer les vidéos de surveillance")
         self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
+        self.chemin_dossier_entry.insert(0,'C:\\Users\\pierry.benoit\\Documents\\dossiers_camera')
         self.chemin_video_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour récupérer les vidéos")
+        self.chemin_video_entry.insert(0, 'C:\\Users\\pierry.benoit\\Documents\\dossiers_videos_a_deplacer')
         self.valider_button = customtkinter.CTkButton(self, anchor='center', text="Valider", command=self.main_button_event)
     
         #position of the main_frame_widgets
@@ -143,7 +145,7 @@ class App(customtkinter.CTk):
     def win_err(self, **kwargs):
         # Utilisez self.err_window pour définir la fenêtre
         self.err_window = customtkinter.CTkToplevel(self)
-        self.err_window.title("Erreurs")
+        self.err_window.title("Erreurs déplacement des fichiers")
         self.err_window.minsize(300,200)
         # Define the 2nd window with grid configuration
         self.err_window.grid_columnconfigure(0, weight=1)
@@ -156,18 +158,18 @@ class App(customtkinter.CTk):
             string_list_bad_extensions = '\n'.join(list_bad_extensions)
             string_list_video_err = '\n'.join(list_video_err)
             string_list_video_err_double = '\n'.join(list_video_err_double)
-            label_err_extension = customtkinter.CTkLabel(self.err_window, text="Liste des erreurs du à une mauvaise extension de fichier : ")
+            label_err_extension = customtkinter.CTkLabel(self.err_window, text="Liste des erreurs dû à une mauvaise extension de fichier : ")
             label_err_folder_extension = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_bad_extensions)
+            label_list_video_err_double = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers en doubles : ")
+            label_string_video_err_double = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err_double)
             label_err_video = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui n'ont pas pu être déplacé : ")
             label_string_list_video_err = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
-            label_list_video_err_double = customtkinter.CTkLabel(self.err_window, text="Liste des fichiers qui sont en doubles : ")
-            label_string_video_err_double = customtkinter.CTkLabel(self.err_window,text_color='red', text=string_list_video_err)
             label_err_extension.grid(row=0, column=0, pady=(20,5), padx=20)
             label_err_folder_extension.grid(row=1, column=0, pady=5)
-            label_err_video.grid(row=2, column=0, pady=(20,5))
-            label_string_list_video_err.grid(row=3, column=0, pady=5)
-            label_list_video_err_double.grid(row=4, column=0, pady=(20,5))
-            label_string_video_err_double.grid(row=5,column=0, pady=5)
+            label_list_video_err_double.grid(row=2, column=0, pady=(20,5))
+            label_string_video_err_double.grid(row=3,column=0, pady=5)            
+            label_err_video.grid(row=4, column=0, pady=(20,5))
+            label_string_list_video_err.grid(row=5, column=0, pady=5)
             button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
             button_quit.grid(row=6, column=0, pady=5)
         elif 'dict_check' in kwargs:

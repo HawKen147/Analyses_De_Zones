@@ -73,13 +73,13 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
             res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
             if res == True :
                 update_incomplet_txt(path_folder_camera, list_name_video_cam)
-            elif res == 2 :
+            if res == 2 :
                 list_video_err_double.append(video_cam)
             else :
                 list_video_err.append(video_cam)
         else :
             list_bad_extensions.append(video_cam)
-
+    print(f" list de fichiers en double : {list_video_err_double}")
     return list_video_err, list_bad_extensions, list_video_err_double
 
     
@@ -94,7 +94,7 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     if not os.path.exists(path_folder_camera):
         return path_folder_camera
     
-    if not check_file_exists(list_name_video_cam, path_folder_camera):
+    if check_file_exists(list_name_video_cam, path_folder_camera) != False:    #Si le fichier n'est pas dans le dossier on déplace le fichier
         shutil.move(path_video_camera, path_folder_camera)
         return True
     else :
@@ -202,15 +202,8 @@ def check_value_dict(dict_check):
 #Fonction qui vérifie si le fichier a déplacer existe déjà ou pas
 def check_file_exists(file_name, path_to_folder):
     files_in_directory = os.listdir(f"{path_to_folder}\\")
-    file_exist = False
     for file in files_in_directory:
-        print(file_name[-1] in file)
-        print(f"le nom du fichier : {file_name} et le fichier : {file}")
-        if file_exist:
-            return file_exist
-        
         if file_name[-1] in file:
-            file_exist = True
-        else:
-            file_exist = False
+            print(file)
+            return False
         
