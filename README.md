@@ -1,4 +1,4 @@
-# Application Analayse de Zones
+# Application Analyse de Zones
 ## Objectifs de l'application
 - Faciliter la création de dossiers
 - Gagner du temps lors de la vérification si il manque des dossiers / fichiers
