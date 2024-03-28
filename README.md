@@ -26,6 +26,7 @@ Il y a autant de dossier CAM_XX que de camera. Il suffit de les créer depuis l'
 - Les fichiers en double ne sont pas déplacé et son affiché dans la fenêtre erreur lors de la fin de l'éxecution du programme.
 
 **Avec la version 0.6, pas besoin de nom généique tu moment que dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)).**
+
 **Avec la version 0.6, on ne peut pas encore créer de fichier excel !**
 ## Prochaines Mises à jours
 - Refaire l'interface utilisateur pour que ce soit plus simple
