@@ -154,7 +154,7 @@ class App(customtkinter.CTk):
             list_bad_extensions = kwargs['list_bad_extensions']
             list_video_err = kwargs['list_video_err']
             list_video_err_double = kwargs['list_video_err_double']
-            self.err_window.grid_rowconfigure((0,1,2,3,4,5,6), weight=1)          #On creer une fenetre de 6 lignes
+            self.err_window.grid_rowconfigure((0,1,2,3,4,5,6), weight=1)          #On créer une fenêtre de 6 lignes
             string_list_bad_extensions = '\n'.join(list_bad_extensions)
             string_list_video_err = '\n'.join(list_video_err)
             string_list_video_err_double = '\n'.join(list_video_err_double)

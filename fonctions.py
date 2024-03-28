@@ -73,7 +73,7 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
             res = move_video_to_folder(path_video_camera, path_folder_camera, video_cam, list_name_video_cam)
             if res == True :
                 update_incomplet_txt(path_folder_camera, list_name_video_cam)
-            if res == 2 :
+            elif res == 2 :
                 list_video_err_double.append(video_cam)
             else :
                 list_video_err.append(video_cam)
@@ -101,7 +101,7 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
 
 def get_passage_cam_number(list_name_video_cam):
     try :
-        numero_cam = list_name_video_cam[0][2:]
+        numero_cam = list_name_video_cam[0]
         folder_cam = f"CAM_{numero_cam}"
         type_passage = list_name_video_cam[-1][1]
         if type_passage == 'R':
@@ -120,23 +120,18 @@ def get_passage_cam_number(list_name_video_cam):
     
 #Fonction qui prend le nom entier du fichier video
 #Met dans une liste le numero de la camera [0]
-#Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, jour/mois/année heure:min:00, DR.asf]
+#Met le numero de la camera, la date, et debut, milieu, fin -> [numero_cam, DR.asf]
 def format_name_video(nom_video):
    try: 
-        nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video
-        nom_video_nCam_date = nom_video.pop(1).split("-")   #recupere et supprime la case 1 de la list creer precedement, sépare la chaine de caractere a chaque '-' et en creer un tableau
-        numero_cam = nom_video_nCam_date.pop(0)             #recupere et supprime la 1ere case de la list (nom + numero de la camera) 
-        date = "/".join(nom_video_nCam_date[::-1])          #Creer la chaine de caractere de la date, [2023,  09, 07] -> 07/09/2023
-        heure = nom_video.pop(1)                            #recupere et supprime l'heure contenue dans nom_video
-        heure = heure[0:5].replace('h',':')                 #Ne garde que l'heure et les min, remplace 'h' par ':' ; 10h42min44s990ms -> 10:42
-        heure += ':00'                                      #ajoute a la fin de la chaine de caractere " :00"
-        date += ' ' + heure                                 #concataine la date et l'heure
-        type_fichier = nom_video[1]                         #recupere l"extension de video + debut,milieu,fin ...
+        for i in range(len(nom_video)):
+            if nom_video[i:i+2] == "TH" and nom_video[i + 2].isdigit() and nom_video[i + 3].isdigit():      #vérifie que ce soit bien une camera thermique avec les numeros (THXX) peu import les numeros
+                numero_cam = nom_video[i+2:i+4]     #Récupere le numéro de camera
+        nom_video = nom_video.split("_")                    #sépare le tableau a chaque '_' dans le nom du fichier de la video              
+        type_fichier = nom_video[-1]                        #recupere l"extension de video + debut,milieu,fin ...
         nom_video.clear()                                   #Vide nom_video car on a récuperé ce que l'on voulait
         nom_video.append(numero_cam)                        #puis on ajoute chaque variable dans la list nom_video
-        nom_video.append(date)
         nom_video.append(type_fichier)
-        return nom_video                                    #Retourne la liste creer precedement
+        return nom_video                                    #Retourne la liste créer precedement
    except :
        return nom_video
    
