@@ -24,6 +24,7 @@ Il y a autant de dossier CAM_XX que de camera. Il suffit de les créer depuis l'
 - Le dossier incomplet.txt contient toutes les vidéos manquantes dans les différents dossiers
  - DM -> Debut Marché, DC -> Début Courir, DR -> Début Rampé, MC -> Milieux Courir, MM -> Milieux MArché, MR -> Milieux Rampé, FC -> Fin Courir, FM -> Fin Marché, FR -> Fin Rampé.
 - Les fichiers en double ne sont pas déplacé et son affiché dans la fenêtre erreur lors de la fin de l'execution du programme.
+
 __ Avec la version 0.6, pas besoin de nom généique tu moment que dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)). __ 
 ** Avec la version 0.6, on ne peut pas encore créer de fichier excel. **
 ## Prochaines Mises à jours
