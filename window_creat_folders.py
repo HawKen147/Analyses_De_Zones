@@ -100,7 +100,6 @@ class main_window(customtkinter.CTk):
     #Récupère les clics sur les boutons dans la sidebar
     def sidebar_button_event(self):
         print("sidebar_button click")   
-        
 
     #Lorsque le bouton Valider est cliqué, on récupere les paramètre entrés dans l'interface
     #On crée le nombre de dossier demander par l'utilisateur et on affiche si tout c'est bien passé ou si il y a des erreurs
@@ -149,6 +148,7 @@ class main_window(customtkinter.CTk):
         y = (screen_height - window_height) // 2
 
         return x,y
+    
     #Bouton "..." qui ouvre le gestionnaire de fichier et recupere le dossier que l'utilisateur a choisit pour stocker les vidéos
     def cherche_dir(self): 
         chemin_dossier = filedialog.askdirectory()
