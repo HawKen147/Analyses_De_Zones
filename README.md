@@ -7,7 +7,7 @@
 
 ## Version actuel V0.7
 La version V0.7 est une version assez complète qui remplit presque tous les objectifs. Le visuel est (presque) terminé.
-Le visuel de l'application a été revu entièrement avec plusieurs fenêtres plus que ce soit plus guidé.
+Le visuel de l'application a été revu entièrement avec plusieurs fenêtres pour que ce soit plus guidé.
 ### V0.7
 La v0.7 permet de créer les dossiers qui permettront de stocker les vidéos d'essaies de zones 
 ```
