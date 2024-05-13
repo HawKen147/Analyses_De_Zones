@@ -5,9 +5,10 @@ import fonctions
 import tkinter.messagebox
 import customtkinter
 
+
 class window_err(customtkinter.CTk):
     
-    def __init__(self):
+    def __init__(self, **kargs):
         super().__init__()
         
     def win_err(self, **kwargs):

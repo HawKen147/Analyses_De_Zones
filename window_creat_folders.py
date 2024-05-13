@@ -1,11 +1,12 @@
-import tkinter
 from tkinter import filedialog
-import os
-import fonctions
+import windows_err as werr
 import tkinter.messagebox
 import customtkinter
 import webbrowser
-import windows_err
+import mv_folder
+import fonctions
+import tkinter
+import os
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -57,9 +58,9 @@ class main_window(customtkinter.CTk):
         self.nb_camera_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Nombre de dossier à créer")
         self.recuperer_repertoire_button = customtkinter.CTkButton(self, height=15, width=30, text="...", command=self.cherche_dir)
         self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour créer les dossiers ou seront stockés les vidéos")
-        self.chemin_dossier_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
+        self.chemin_video_recuperer_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
         self.valider_button = customtkinter.CTkButton(self, anchor='center', text="Valider", command=self.main_button_event)
-        self.lien2_label.bind("<Button-1>", self.callback)
+        self.dossier_deja_cree = customtkinter.CTkLabel(self, text="Les dossiers sont déjà créer ?", cursor="hand2", text_color="blue")
     
         #position of the main_frame_widgets
         self.intro_label.grid(row=0, column=1, pady=(50,0), padx=5, sticky="nswe")
@@ -67,15 +68,19 @@ class main_window(customtkinter.CTk):
         self.creation_dossiers_label.grid(row=2,column=1, sticky="nsew")
         self.nb_camera_entry.grid(row=3, column=1, pady=(0,5))
         self.chemin_dossier_label.grid(row=4, column=1, pady=(5,0), sticky="nsew")
-        self.chemin_dossier_entry.grid(row=5, column=1)
+        self.chemin_video_recuperer_entry.grid(row=5, column=1)
         self.recuperer_repertoire_button.grid(row=5, column=1, padx=(300,0))
-        self.valider_button.grid(row=8,column=1, pady=5)
+        self.dossier_deja_cree.grid(row=6, column=1)
+        self.valider_button.grid(row=8,column=1, pady=(0,15))
 
         #definition initial state       
         self.valider_button.configure(state="disabled")
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
         self.bind_all("<KeyPress>", self.functions_calls)
+        self.bind_all("<ButtonPress-1>", self.functions_calls)
+        self.dossier_deja_cree.bind("<ButtonPress-1>", self.dossier_mv_win)
+        self.lien2_label.bind("<Button-1>", self.callback)
 
     #ouvre la page internet via l'hyperlink
     def callback(self, event):
@@ -101,17 +106,17 @@ class main_window(customtkinter.CTk):
     def sidebar_button_event(self):
         print("sidebar_button click")   
 
-    #Lorsque le bouton Valider est cliqué, on récupere les paramètre entrés dans l'interface
-    #On crée le nombre de dossier demander par l'utilisateur et on affiche si tout c'est bien passé ou si il y a des erreurs
+    #Lorsque le bouton Valider est cliqué, on récupere les paramètres d'entrés dans l'interface
+    #On crée le nombre de dossier demandé par l'utilisateur et on affiche si tout c'est bien passé ou si il y a des erreurs
     def main_button_event(self):
         nb_camera = self.nb_camera_entry.get()
-        chemin_stocker = self.chemin_dossier_entry.get()
+        chemin_stocker = self.chemin_video_recuperer_entry.get()
         if nb_camera != '' and chemin_stocker!= '':
             #appel la fonction pour créer les dossiers
             if (fonctions.creer_dossier(nb_camera, chemin_stocker)):
-                windows_err.window_err(no_err='no_err')
+                 werr.window_err.win_err(self, no_err='no_err')
             else :
-                windows_err.window_err(simple_err = 'simple_err')
+                 werr.window_err.win_err(self, simple_err = 'simple_err')
 
     #Fonction qui appel la fonction qui gere le bouton validé    
     def functions_calls(self, event):
@@ -119,16 +124,16 @@ class main_window(customtkinter.CTk):
 
     #Change the button state (normal or disabled)
     def valider_button_event(self):
-        bool = self.get_entrys()            #Get if the checkbox is checked
+        bool = self.get_entrys()            #Récupère si la checkbox est cocher ou pas
         if bool :
             self.valider_button.configure(state="normal")
         else :
             self.valider_button.configure(state="disabled")
 
-    #Récupère l'entré pour le nmobre de caméra, le chemin pour stocker
+    #Récupère l'entré pour le nombre de caméra, le chemin pour stocker
     def get_entrys(self):
         nb_camera = self.nb_camera_entry.get()
-        chemin_stocker = self.chemin_dossier_entry.get()
+        chemin_stocker = self.chemin_video_recuperer_entry.get()
         if nb_camera.isdigit() and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) == 0 :          # Verifier si nb_camera est bien un entier, si le chemin renseigner est existant et si le chemin renseigné est vide, si il n'y a rien d'entré dans l'entré des videos surveillances et si la checkbox est bien décocher.
             return True
         
@@ -153,6 +158,11 @@ class main_window(customtkinter.CTk):
     def cherche_dir(self): 
         chemin_dossier = filedialog.askdirectory()
         chemin_dossier = chemin_dossier.replace('/','\\')
-        print(chemin_dossier)
-        self.chemin_dossier_entry.insert(0, chemin_dossier)
-
+        self.chemin_video_recuperer_entry.delete(0, customtkinter.END)
+        self.chemin_video_recuperer_entry.insert(0, chemin_dossier)
+        
+    #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
+    #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
+    def dossier_mv_win(self, event):
+        self.destroy()
+        mv_folder.mv_win()
