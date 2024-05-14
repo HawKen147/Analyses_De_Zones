@@ -1,24 +1,47 @@
-# Import the necessary libraries
 import openpyxl
-from openpyxl.styles import Alignment
-import pandas as pd
+from openpyxl import load_workbook
+import os
+import fonctions
 
-# Create a new Excel workbook
-workbook = openpyxl.Workbook()
-# Select the default sheet (usually named 'Sheet')
+# Chemin du fichier Excel final
+new_excel_file = "./excel/final/Essaies_Zones.xlsx"
+
+# Charger le classeur Excel existant
+workbook = load_workbook("./excel/model/model.xlsx")
+
+# Sélectionnez la feuille active
 sheet = workbook.active
-# Add data to the Excel sheet
-data = [
-    ["Name", "Age", "City"],
-    ["John", 28, "New York"],
-    ["Alice", 24, "San Francisco"],
-    ["Bob", 32, "Los Angeles"]
-]
-for row in data:
-    sheet.append(row)
-# Save the workbook to a file
-workbook.save(f"C:/Users/pierry.benoit/Documents/my_excel_file.xlsx")
-# Print a success message
-print("Excel file created successfully!")
 
+# Vérifier si le fichier final existe, si oui, renommer en conséquence
+i = 0
+while True:
+    i += 1
+    if not os.path.isfile(new_excel_file):
+        break
+    else:
+        new_excel_file = f"./excel/final/Essaies_Zones({i}).xlsx"
 
+path_to_folder = "C:/Users/pierry.benoit/Documents/dossiers_camera"
+
+# Obtenir le nombre de caméras
+nb_camera = fonctions.get_nb_camera(path_to_folder)
+
+#recupere tous les clips videos dans un tableau [[clip_ramper_1, clip_ramper_2, clip_ramper_3], [clip_marcher_1, clip_marcher_2, clip_marcher_3]...]
+clips = fonctions.get_videos_clips(path_to_folder)
+
+for clip in clips :
+    try :
+        for i in range (3):
+            print(clip[i])
+    except Exception :
+        print(Exception)
+        print("")
+
+#print(clips)
+
+# Insérer les données dans la feuille de calcul
+for i in range(1, nb_camera + 1):
+    sheet[f'B{i + 4}'] = i
+
+# Enregistrer le classeur Excel
+workbook.save(new_excel_file)
