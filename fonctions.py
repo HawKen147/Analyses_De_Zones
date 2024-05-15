@@ -153,7 +153,7 @@ def check_extension_folder(video_cam):
 def update_incomplet_txt(path, name_cam_folder):
     type_passage, numero_cam = get_passage_cam_number(name_cam_folder)
     type_passage = name_cam_folder[-1][:2]
-    path += "\\" + numero_cam + "\\" + "incomplet.txt"
+    path += f"/{numero_cam}/incomplet.txt"
     del_passage_type_txt(path, type_passage)
 
 #supprime le passage dans le dossier incomplet.txt
@@ -200,3 +200,25 @@ def check_file_exists(file_name, path_to_folder):
         if file_name[-1] in file:
             return False
         
+
+#Fonction qui récupere le nombre de camera
+def get_nb_camera(path_to_folders):
+    nombre_de_dossiers = 0
+    elements = os.listdir(path_to_folders)
+    for element in elements:
+        # Vérifier si l'élément est un dossier
+        if os.path.isdir(os.path.join(path_to_folders, element)):
+            nombre_de_dossiers += 1
+    return nombre_de_dossiers
+
+#Fonction qui retourne toutes les videos présentes (seulement l'heure de chaque clips)
+def get_videos_clips(path_to_folders):
+    tab_clips = []
+    elements = os.listdir(path_to_folders)
+    for cam in elements:
+        type_passage = os.listdir(f"{path_to_folders}/{cam}")
+        for passage in type_passage :
+            if os.path.isdir(f"{path_to_folders}/{cam}/{passage}") :
+                clips = os.listdir(f"{path_to_folders}/{cam}/{passage}")
+                tab_clips.append(clips)
+    return tab_clips
