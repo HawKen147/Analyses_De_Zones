@@ -1,5 +1,6 @@
-import os       #accede aux parametre de l'os / dossier
 import shutil   #permet la gestion de dossiers / fichiers
+import os       #accede aux parametre de l'os / dossier
+
 
 #Verifie que tout les fichiers soient bien correctement créé en verifiant si leurs chemins existent
 #Si les chemins existent, alors return true

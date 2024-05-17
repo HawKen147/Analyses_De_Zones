@@ -1,9 +1,10 @@
-import tkinter
+
 from tkinter import filedialog
-import os
-import fonctions
 import tkinter.messagebox
 import customtkinter
+import fonctions
+import tkinter
+import os
 
 
 class window_err(customtkinter.CTk):

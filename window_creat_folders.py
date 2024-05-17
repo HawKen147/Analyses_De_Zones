@@ -50,7 +50,6 @@ class main_window(customtkinter.CTk):
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=10, column=0, padx=20, pady=(10, 20))
 
-
         #Main : Essaies Zones
         self.intro_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="Assurez vous que le dossier soit vide avant de créer les dossiers pour stocker les passages. \n Choisissez le nombre de dossier (ou camera) que vous voulez créer. \n Pour plus d'informations vous pouvez aller voir la doc ici : ")
         self.lien2_label = customtkinter.CTkLabel(self, width=350, anchor='center', text="https://github.com/HawKen147/Analyses_De_Zones", cursor="hand2", text_color="blue")
@@ -151,7 +150,6 @@ class main_window(customtkinter.CTk):
         # Calculer les coordonnées pour centrer la fenêtre
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
-
         return x,y
     
     #Bouton "..." qui ouvre le gestionnaire de fichier et recupere le dossier que l'utilisateur a choisit pour stocker les vidéos
