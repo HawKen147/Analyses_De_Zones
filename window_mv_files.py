@@ -3,6 +3,7 @@ from functools import partial
 import windows_err as werr
 import tkinter.messagebox
 import customtkinter
+import create_excel
 import webbrowser
 import fonctions
 import tkinter
@@ -40,6 +41,11 @@ class main_window(customtkinter.CTk):
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, command=self.sidebar_button_event, text="Analyse de vie")
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
+        self.sidebar_button_2.configure(state="disabled")
+        self.sidebar_label_create_excel = customtkinter.CTkLabel(self.sidebar_frame, text="Génèrer Excel")
+        self.sidebar_label_create_excel.grid(row=5, column=0, padx=20, pady=(10,0))
+        self.sidebar_button_create_excel = customtkinter.CTkButton(self.sidebar_frame, command=self.create_excel, text="Créer Excel")
+        self.sidebar_button_create_excel.grid(row=6, column=0, padx=20, pady=10)
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Mode d'apparence :", anchor="w")
         self.appearance_mode_label.grid(row=7, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["System", "Light", "Dark"], command=self.change_appearance_mode_event)
@@ -63,7 +69,6 @@ class main_window(customtkinter.CTk):
         self.chemin_dossier_label = customtkinter.CTkLabel(self, anchor='center', text="Entrer le chemin pour stocker les vidéos de surveillance")
         self.chemin_video_stocker_entry = customtkinter.CTkEntry(self, width=250, placeholder_text="Chemin pour stocker les vidéos")
         self.recuperer_repertoire_videos_stocker_button = customtkinter.CTkButton(self, anchor='center', height=15, width=30, text="...", command=partial(self.cherche_dir, variable_stock_dir))
-        self.creer_excel = customtkinter.CTkButton(self, anchor='center', text="Generer Excel", command=self.create_excel, state="disable")
         self.retour_creation_dossier = customtkinter.CTkLabel(self, text="Besoin de créer les dossiers ?", cursor="hand2", text_color="blue")
         self.lien2_label.bind("<Button-1>", self.callback)
         self.valider_button = customtkinter.CTkButton(self, anchor='center', text="Valider", command=self.main_button_event)
@@ -88,6 +93,7 @@ class main_window(customtkinter.CTk):
         self.bind_all("<KeyPress>", self.functions_calls)
         self.bind_all("<ButtonPress-1>", self.functions_calls)
         self.retour_creation_dossier.bind("<ButtonPress-1>", self.back_to_main)
+        self.sidebar_button_create_excel.configure(state="disabled")
         
     
     #ouvre la page internet via l'hyperlink
@@ -148,6 +154,7 @@ class main_window(customtkinter.CTk):
     #fonction qui appel la fonction qui gere le bouton validé
     def functions_calls(self, event):
        self.valider_button_event()
+       self.excel_button()
 
    
    #ferme la fenetre correspondante
@@ -177,10 +184,20 @@ class main_window(customtkinter.CTk):
             self.chemin_video_stocker_entry.insert(0, chemin_dossier)
         
     def create_excel(self):
-        pass
+        create_excel.main()
+        
+    def excel_button(self): 
+        chemin_stockage_video = self.chemin_video_stocker_entry.get()
+        if os.path.exists(chemin_stockage_video):
+            self.sidebar_button_create_excel.configure(state="normal")
+        else : 
+            self.sidebar_button_create_excel.configure(state="disabled")
     
     #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
     #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
     def back_to_main(self, event):
         self.destroy()
         main.main_win()
+
+    def test(self):
+        print("je suis cliqué")

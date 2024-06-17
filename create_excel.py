@@ -56,55 +56,58 @@ def format_date(date):
     formatted_date = date_obj.strftime("%A %d %B %Y")
     return formatted_date
 
-# Chemin du fichier Excel final
-new_excel_file = "./excel/final/Essaies_Zones.xlsx"
 
-# Charge le classeur Excel existant
-workbook = load_workbook("./excel/model/model.xlsx")
+def main ():
+    
+    # Chemin du fichier Excel final
+    new_excel_file = "./excel/final/Essaies_Zones.xlsx"
 
-# Sélectionne la feuille active
-sheet = workbook.active
+    # Charge le classeur Excel existant
+    workbook = load_workbook("./excel/model/model.xlsx")
 
-# Vérifier si le fichier final existe, si oui, renomme en conséquence
-i = 0
-while True:
-    i += 1
-    if not os.path.isfile(new_excel_file):
-        break
-    else:
-        new_excel_file = f"./excel/final/Essaies_Zones({i}).xlsx"
+    # Sélectionne la feuille active
+    sheet = workbook.active
 
-path_to_folder = "C:/Users/pierry.benoit/Documents/dossiers_camera"
+    # Vérifier si le fichier final existe, si oui, renomme en conséquence
+    i = 0
+    while True:
+        i += 1
+        if not os.path.isfile(new_excel_file):
+            break # ajouter la fonction qui retourne l'erreur 
+        else:
+            new_excel_file = f"./excel/final/Essaies_Zones({i}).xlsx"
 
-# Obtenir le nombre de caméras
-nb_camera = fonctions.get_nb_camera(path_to_folder)
+    path_to_folder = "C:/Users/pierry.benoit/Documents/dossiers_camera"
 
-# Insérer le numero de camera dans la bonne cellule
-for i in range(1, nb_camera + 1):
-    sheet[f'B{i + 4}'] = i
+    # Obtenir le nombre de caméras
+    nb_camera = fonctions.get_nb_camera(path_to_folder)
 
-#recupere tous les clips videos dans un tableau [[clip_ramper_1, clip_ramper_2, clip_ramper_3], [clip_marcher_1, clip_marcher_2, clip_marcher_3]...]
-clips = fonctions.get_videos_clips(path_to_folder)
+    # Insérer le numero de camera dans la bonne cellule
+    for i in range(1, nb_camera + 1):
+        sheet[f'B{i + 4}'] = i
 
-#On parcourt tout les clips
-for clip in clips :
-    try :
-        for i in range (3):         #Chaque clip est dans une liste de 3
-            nom_clip = clip[i]
-            index_numero_cam = nom_clip.find("TH")                              #Index ou se situe TH (récuperer l'index de T)
-            numero_cam = nom_clip[index_numero_cam+2:index_numero_cam+4]        #On recupere l'indice ou se situe TH et on récupere les 2 chiffres apres TH
-            ligne_excel = int(numero_cam) + 4                                   #On commence a la 4è ligne du fichier excel (apres les en-tetes)
-            type_de_passage = nom_clip[-6:-4]                                   #On récupere le type de passage (qui est la fin du nom de la video ...DM.asf)
-            colonne_excel = colonne_passage_excel(type_de_passage)              #on récuperer la bonne colonne en fonction du passage (DM = colonne C)
-            date, heure = recuperer_heure_passage(nom_clip)
-            heure = heure.replace('h', ':')                                     #On remplace HHhMM en HH:MM (14h00 -> 14:00)
-            date = format_date(date)                                            #Formate la date en Francais
-            sheet[f"{colonne_excel}{ligne_excel}"] = f"{date} {heure}"          #Remplis la feuille de calcule
+    #recupere tous les clips videos dans un tableau [[clip_ramper_1, clip_ramper_2, clip_ramper_3], [clip_marcher_1, clip_marcher_2, clip_marcher_3]...]
+    clips = fonctions.get_videos_clips(path_to_folder)
 
-    except Exception :                                                          #Gestion des éventuelles erreurs
-        #print(Exception)
-        pass
+    #On parcourt tout les clips
+    for clip in clips :
+        try :
+            for i in range (3):         #Chaque clip est dans une liste de 3
+                nom_clip = clip[i]
+                index_numero_cam = nom_clip.find("TH")                              #Index ou se situe TH (récuperer l'index de T)
+                numero_cam = nom_clip[index_numero_cam+2:index_numero_cam+4]        #On recupere l'indice ou se situe TH et on récupere les 2 chiffres apres TH
+                ligne_excel = int(numero_cam) + 4                                   #On commence a la 4è ligne du fichier excel (apres les en-tetes)
+                type_de_passage = nom_clip[-6:-4]                                   #On récupere le type de passage (qui est la fin du nom de la video ...DM.asf)
+                colonne_excel = colonne_passage_excel(type_de_passage)              #on récuperer la bonne colonne en fonction du passage (DM = colonne C)
+                date, heure = recuperer_heure_passage(nom_clip)
+                heure = heure.replace('h', ':')                                     #On remplace HHhMM en HH:MM (14h00 -> 14:00)
+                date = format_date(date)                                            #Formate la date en Francais
+                sheet[f"{colonne_excel}{ligne_excel}"] = f"{date} {heure}"          #Remplis la feuille de calcule
+
+        except Exception :                                                          #Gestion des éventuelles erreurs
+            #print(Exception)   #faire la fonction qui renvoie les erreurs
+            pass
 
 
-#On enregistre le classeur Excel
-workbook.save(new_excel_file)
+    #On enregistre le classeur Excel
+    workbook.save(new_excel_file)
