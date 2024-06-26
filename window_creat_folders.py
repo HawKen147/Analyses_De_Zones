@@ -74,6 +74,7 @@ class main_window(customtkinter.CTk):
 
         #definition initial state       
         self.valider_button.configure(state="disabled")
+        self.sidebar_button_2.configure(state="disabled")
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
         self.bind_all("<KeyPress>", self.functions_calls)

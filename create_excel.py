@@ -56,7 +56,7 @@ def format_date(date):
     formatted_date = date_obj.strftime("%A %d %B %Y")
     return formatted_date
 
-
+#Fonction principale du fichier de la création du fichier excel
 def main ():
     
     # Chemin du fichier Excel final
@@ -68,12 +68,12 @@ def main ():
     # Sélectionne la feuille active
     sheet = workbook.active
 
-    # Vérifier si le fichier final existe, si oui, renomme en conséquence
+    # Tant que le fichier excel existe, on change le nom du fichier en ajoutant l'indice au nombre de fichier
     i = 0
     while True:
         i += 1
         if not os.path.isfile(new_excel_file):
-            break # ajouter la fonction qui retourne l'erreur 
+            break 
         else:
             new_excel_file = f"./excel/final/Essaies_Zones({i}).xlsx"
 
@@ -106,6 +106,9 @@ def main ():
 
         except Exception :                                                          #Gestion des éventuelles erreurs
             #print(Exception)   #faire la fonction qui renvoie les erreurs
+            ################### Si la valeur "clip" est vide -> renvoie une erreur
+            ################### Pour bypass cela, je peux verifier la longueur du tableau ou le remplir de vide (' ')
+            ################### Remplir de vide parait le mieux -> si ' ' alors on remplit le excel de vide ou on skip ? Skip parait le mieux
             pass
 
 
