@@ -9,7 +9,7 @@ import os
 
 class window_err(customtkinter.CTk):
     
-    def __init__(self, **kargs):
+    def __init__(self, **kwargs):
         super().__init__()
         
     def win_err(self, **kwargs):
@@ -68,3 +68,4 @@ class window_err(customtkinter.CTk):
             button_quit.grid(row=1, column=0, pady=5)
         self.err_window.attributes('-topmost', True)
         self.err_window.lift()
+

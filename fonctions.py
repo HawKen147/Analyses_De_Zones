@@ -219,7 +219,9 @@ def get_videos_clips(path_to_folders):
     for cam in elements:
         type_passage = os.listdir(f"{path_to_folders}/{cam}")
         for passage in type_passage :
-            if os.path.isdir(f"{path_to_folders}/{cam}/{passage}") :
+            if os.path.isdir(f"{path_to_folders}/{cam}/{passage}") and len(os.listdir(f"{path_to_folders}/{cam}/{passage}")) > 0 :
                 clips = os.listdir(f"{path_to_folders}/{cam}/{passage}")
-                tab_clips.append(clips)
+                for clip in clips:
+                    tab_clips.append(clip)
+                
     return tab_clips

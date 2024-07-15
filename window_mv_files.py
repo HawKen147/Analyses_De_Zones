@@ -6,7 +6,7 @@ import customtkinter
 import create_excel
 import webbrowser
 import fonctions
-import tkinter
+import tkinter as tk
 import main
 import os
 
@@ -145,7 +145,7 @@ class main_window(customtkinter.CTk):
             dict_check = fonctions.check_folders(chemin_stocker)
             werr.window_err.win_err(self, dict_check=dict_check)
         elif chemin_stocker != '' and chemin_get_videos != '':
-            list_video_err, list_bad_extensions, list_video_err_double = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)  #appel la fonction pour déplacer les videos des cameras
+            list_video_err, list_bad_extensions, list_video_err_double = fonctions.get_video_cam_files(chemin_get_videos, chemin_stocker)  #appel la fonction pour déplacer les vidéos des caméras
             if (list_video_err or list_bad_extensions or list_video_err_double):
                 werr.window_err.win_err(self, list_video_err=list_video_err, list_bad_extensions=list_bad_extensions, list_video_err_double=list_video_err_double)
             else :
@@ -173,6 +173,7 @@ class main_window(customtkinter.CTk):
 
         return x,y
 
+    #Button pour ouvrir la fenetre de dialogue pour ouvrir la l'explorateur de dossiers
     def cherche_dir(self, nom_button): 
         chemin_dossier = filedialog.askdirectory()
         chemin_dossier = chemin_dossier.replace('/','\\')
@@ -183,16 +184,33 @@ class main_window(customtkinter.CTk):
             self.chemin_video_stocker_entry.delete(0, customtkinter.END)
             self.chemin_video_stocker_entry.insert(0, chemin_dossier)
         
+<<<<<<< Updated upstream
     def create_excel(self):
         create_excel.main()
         
+=======
+    #Fonction qui appel la fonction de la création du fichier excel
+    #Si il y a une erreur, alors appel la fonction pour ouvrir la fenêtre d'erreur et affiche les erreurs
+    #ici erreurs est l'objet Exception (lors d'un try - except)
+    def create_excel(self):
+        create_excel.main_excel()
+        werr.window_err.win_err(self, no_err = 'no_err')
+        """if erreurs == "no_err":
+            self.call_window_no_err()"""            #Si j'appel la fonction pour créer la fenetre, cela me crée une erreur "bad screen distance "0.0". c'est a cause de la fonction create_excel.main()
+    
+    #cette fonction crée la fenetre no err
+    def call_window_no_err(self):
+        werr.window_err.win_err(self.sidebar_frame, no_err = 'no_err')
+
+    #Gestion du bouton de la création du fichier excel (bouton sidebar "excel")
+>>>>>>> Stashed changes
     def excel_button(self): 
         chemin_stockage_video = self.chemin_video_stocker_entry.get()
         if os.path.exists(chemin_stockage_video):
             self.sidebar_button_create_excel.configure(state="normal")
         else : 
             self.sidebar_button_create_excel.configure(state="disabled")
-    
+
     #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
     #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
     def back_to_main(self, event):
