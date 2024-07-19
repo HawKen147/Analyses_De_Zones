@@ -219,7 +219,95 @@ def get_videos_clips(path_to_folders):
     for cam in elements:
         type_passage = os.listdir(f"{path_to_folders}/{cam}")
         for passage in type_passage :
-            if os.path.isdir(f"{path_to_folders}/{cam}/{passage}") :
+            if os.path.isdir(f"{path_to_folders}/{cam}/{passage}") and len(os.listdir(f"{path_to_folders}/{cam}/{passage}")) > 0 :
                 clips = os.listdir(f"{path_to_folders}/{cam}/{passage}")
-                tab_clips.append(clips)
+                for clip in clips:
+                    tab_clips.append(clip)
+                
     return tab_clips
+
+#transforme la date englaise en francais
+#Fonction temporaire dans l'attente d'un fixe pour la variable locale
+#prend en parametre le date entière
+
+def date_eng_to_fr (date_time):
+    date_time = date_time.split(" ")
+    print(date_time)
+    eng_to_fr_day(date_time)
+    eng_to_fr_month(date_time)
+    date_str = tab_date_to_str(date_time)
+    return date_str
+
+def eng_to_fr_day(day):
+    match day[0]:
+        case "Monday" :
+            day[0] = "Lundi"
+            return day
+        case "Tuesday" :
+            day[0] = "Mardi"
+            return day
+        case "Wednesday" :
+            day[0] = "Mercredi"
+            return day
+        case "Thursday":
+            day[0] = "Jeudi"
+            return day
+        case "Friday" :
+            day[0] = "Vendredi"
+            return day
+        case "Saturday" :
+            day[0] = "Samedi"
+            return day
+        case "Sunday" :
+            day[0] = "Dimanche"
+            return day
+        case _ :
+            print("c'est quoi ce bordel")
+
+def eng_to_fr_month(month):
+    match month[2]:
+        case "January" :
+            month[2] = "Janvier"
+            return month
+        case "February" :
+            month[2] = "Février"
+            return month
+        case "March" :
+            month[2] = "Mars"
+            return month
+        case "April":
+            month[2] = "Avril"
+            return month
+        case "May" :
+            month[2] = "Mai"
+            return month
+        case "June" :
+            month[2] = "Juin"
+            return month
+        case "July" :
+            month[2] = "Juillet"
+            return month
+        case "August" :
+            month[2] = "Aout"
+            return month
+        case "September" :
+            month[2] = "Septembre"
+            return month
+        case "October":
+            month[2] = "Octobre"
+            return month
+        case "November" :
+            month[2] = "Novembre"
+            return month
+        case "December" :
+            month[2] = "Décembre"
+            return month
+        case _ :
+           print("je comprends pas")
+        
+#Transforme la tableau de date en string
+def tab_date_to_str(date_time):
+    date_str = ""
+    for date in date_time:
+        date_str += date + " "
+    return date_str

@@ -186,10 +186,15 @@ class main_window(customtkinter.CTk):
     #Fonction qui appel la fonction de la création du fichier excel
     #Si il y a une erreur, alors appel la fonction pour ouvrir la fenêtre d'erreur et affiche les erreurs
     def create_excel(self):
-        erreurs = create_excel.main()
+        erreurs = create_excel.main_excel()
         print(erreurs)
+
         
-    #Gestion du bouton de la création du fichier excel (bouton sidebar "exccel")
+    #cette fonction crée la fenetre no err
+    def call_window_no_err(self):
+        werr.window_err.win_err(self.sidebar_frame, no_err = 'no_err')
+
+    #Gestion du bouton de la création du fichier excel (bouton sidebar "excel")
     def excel_button(self): 
         chemin_stockage_video = self.chemin_video_stocker_entry.get()
         if os.path.exists(chemin_stockage_video):
