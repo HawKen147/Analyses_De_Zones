@@ -38,6 +38,7 @@ Une fois les dossier créer, il faudra renseigner le chemin où sont stockés le
 - Création du fichier Excel sans model
 - Créer le changement de fenêtre automatiquement après avoir créé les dossiers
 - Incorporer les analyses de vie a l'interface graphique
+- Géstion de la fenêtre, éviter quelle ne s'ouvre qu'au même endroit (même après l'avoir déplacé)
 ### Rendu de l'application (front-end)
 # Thème claire 
 ![Screenshot de l'application thème claire 1](https://www.aht.li/3849489/Capture_decran_2024-05-13_123516.png)
