@@ -5,11 +5,14 @@
 - Limite les erreurs de manipulation
 - Création du fichier excel de manière simple et rapide
 
-## Version actuel V0.7
-La version V0.7 est une version assez complète qui remplit presque tous les objectifs. Le visuel est (presque) terminé.
+## Version actuel V0.9
+La version V0.9 est une version assez complète qui remplit presque tous les objectifs. Le visuel est (presque) terminé.
 Le visuel de l'application a été revu entièrement avec plusieurs fenêtres pour que ce soit plus guidé.
-### V0.7
-La v0.7 permet de créer les dossiers qui permettront de stocker les vidéos d'essaies de zones 
+### V0.9
+La v0.9 permet de créer les dossiers qui permettront de stocker les vidéos d'essaies de zones. Il suffit de renseigner le dossier dans lequel on souhaite
+stocker les vidéos. Le dossier doit être vide sinon ca ne marchera pas.
+
+Ci dessous l'arborescence des dossiers créé pour chaque caméra
 ```
 CAM_XX
   |-rampe
@@ -26,11 +29,14 @@ Il y a autant de dossier CAM_XX que de camera. Il suffit de les créer depuis l'
  - DM -> Debut Marché, DC -> Début Courir, DR -> Début Rampé, MC -> Milieux Courir, MM -> Milieux MArché, MR -> Milieux Rampé, FC -> Fin Courir, FM -> Fin Marché, FR -> Fin Rampé.
 - Les fichiers en double ne sont pas déplacés et sont affichés dans la fenêtre erreur lors de la fin de l'éxecution du programme.
 
-**Avec la version 0.7, pas besoin de nom générique, A partir du moment ou dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)). Exemple : NomDuSite_THxx_HeureDuPassage_DM, THxxHeureDuPassageDM**
+**Avec la version 0.9, pas besoin de nom générique, A partir du moment ou dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)). Exemple : NomDuSite_THxx_HeureDuPassage_DM, THxxHeureDuPassageDM**
 
-**Avec la version 0.7, on ne peut pas encore créer de fichier excel !**
+La V0.9 permet aussi la création du fichier Excel !
+Une fois les dossier créer, il faudra renseigner le chemin où sont stockés les vidéos des passages. Une fois cela réalisé, le bouton pour généré l'excel deviendra cliquable.
+
 ## Prochaines Mises à jours
-- Création du fichier excel avec toutes les informations utiles
+- Création du fichier Excel sans model
+- Créer le changement de fenêtre automatiquement après avoir créé les dossiers
 - Incorporer les analyses de vie a l'interface graphique
 ### Rendu de l'application (front-end)
 # Thème claire 
