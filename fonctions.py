@@ -232,7 +232,6 @@ def get_videos_clips(path_to_folders):
 
 def date_eng_to_fr (date_time):
     date_time = date_time.split(" ")
-    print(date_time)
     eng_to_fr_day(date_time)
     eng_to_fr_month(date_time)
     date_str = tab_date_to_str(date_time)
