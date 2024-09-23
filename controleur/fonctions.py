@@ -100,6 +100,7 @@ def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list
     else :
         return 2
 
+#Retourne le type de passage selon la lettre dans le nom du fichier
 def get_passage_cam_number(list_name_video_cam):
     try :
         numero_cam = list_name_video_cam[0]
@@ -223,13 +224,11 @@ def get_videos_clips(path_to_folders):
                 clips = os.listdir(f"{path_to_folders}/{cam}/{passage}")
                 for clip in clips:
                     tab_clips.append(clip)
-                
     return tab_clips
 
 #transforme la date englaise en francais
 #Fonction temporaire dans l'attente d'un fixe pour la variable locale
 #prend en parametre le date entière
-
 def date_eng_to_fr (date_time):
     date_time = date_time.split(" ")
     eng_to_fr_day(date_time)
@@ -237,6 +236,7 @@ def date_eng_to_fr (date_time):
     date_str = tab_date_to_str(date_time)
     return date_str
 
+#Traduis le jour anglais en jour francais
 def eng_to_fr_day(day):
     match day[0]:
         case "Monday" :
@@ -263,6 +263,7 @@ def eng_to_fr_day(day):
         case _ :
             print("c'est quoi ce bordel")
 
+#Traduis le mois anglais en mois francais
 def eng_to_fr_month(month):
     match month[2]:
         case "January" :

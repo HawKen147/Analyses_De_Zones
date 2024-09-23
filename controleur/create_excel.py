@@ -1,6 +1,5 @@
 from openpyxl import load_workbook
-import fonctions
-import openpyxl
+import controleur.fonctions as fonctions
 import datetime
 import locale
 import os
@@ -29,7 +28,7 @@ def colonne_passage_excel(type_passage):
         case "MR" :
             return 'M'
         case "FM" :
-            return 'P'
+            return 'O'
         case "FC" :
             return 'Q'
         case "FR" :
@@ -44,7 +43,6 @@ def recuperer_heure_passage(nom_clip):
     for i in range(len(nom_clip)):
         if nom_clip[i:i+4].isdigit():
             time = nom_clip[i:i+16]
-
             date, heure = time.split('_')
             return date, heure
         
@@ -59,21 +57,21 @@ def format_date(date):
 #fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
 #si il n'existe pas il crée le dossier
 def check_path():
-    if not "final" in os.listdir("excel"):
+    if not "final" in os.listdir(f"model/excel"):
         os.makedirs(f"excel/final")
 
 #Fonction principale de la création du fichier excel
-def main_excel ():
+def main_excel(path_to_folder):
 
     #fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
     #si il n'existe pas il crée le dossier
     check_path()
 
     # Chemin du fichier Excel final
-    new_excel_file = "./excel/final/Essaies_Zones.xlsx"
+    new_excel_file = "./model/excel/final/Essaies_Zones.xlsx"
 
     # Charge le classeur Excel existant
-    workbook = load_workbook("./excel/model/model.xlsx")
+    workbook = load_workbook("./model/excel/model/model.xlsx")
 
     # Sélectionne la feuille active
     sheet = workbook.active
@@ -85,9 +83,9 @@ def main_excel ():
         if not os.path.isfile(new_excel_file):
             break 
         else:
-            new_excel_file = f"./excel/final/Essaies_Zones({i}).xlsx"
+            new_excel_file = f"./model/excel/final/Essaies_Zones({i}).xlsx"
 
-    path_to_folder = "C:/Users/pierry.benoit/Documents/dossiers_camera"
+    path_to_folder = "C:/Users/pierry.benoit/Documents/dossiers_camera"         #Il faut récuperer le chemin !
 
     # Obtenir le nombre de caméras
     nb_camera = fonctions.get_nb_camera(path_to_folder)
