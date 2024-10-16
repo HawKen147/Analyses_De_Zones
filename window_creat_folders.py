@@ -87,7 +87,7 @@ class main_window(customtkinter.CTk):
 
     #Verifie si le chemin donnée existe
     def check_path(self, path):
-        if ((os.path.exists(path) or path == '')):
+        if (os.path.exists(path) or path == ''):
             return True
         else :
             return False
@@ -115,7 +115,7 @@ class main_window(customtkinter.CTk):
             if (fonctions.creer_dossier(nb_camera, chemin_stocker)):
                  werr.window_err.win_err(self, no_err='no_err')
             else :
-                 werr.window_err.win_err(self, simple_err = 'simple_err')
+                 werr.window_err.win_err(self, simple_err='simple_err')
 
     #Fonction qui appel la fonction qui gere le bouton validé    
     def functions_calls(self, event):
@@ -161,6 +161,19 @@ class main_window(customtkinter.CTk):
         
     #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
     #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
+   #ferme la fenetre correspondante
+    def close_window(self):
+        if hasattr(self, 'err_window') and self.err_window:
+            self.err_window.destroy()
+
+    #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
     def dossier_mv_win(self, event):
         self.destroy()
+<<<<<<< Updated upstream:window_creat_folders.py
         mv_folder.mv_win()
+=======
+        main_mv_folder.mv_win()
+
+"""    def window_center(self,window_width, window_height):
+        # Obtient les dimensions de l'écran"""
+>>>>>>> Stashed changes:view/window_create_folders.py
