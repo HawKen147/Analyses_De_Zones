@@ -5,6 +5,7 @@ from openpyxl.styles import Font, Border, PatternFill, Alignment, Side
 
 #pip install pillow -> inserer des images dans un fichier excel
 
+
 wb = Workbook()
 
 ws = wb.active
@@ -26,19 +27,16 @@ while True:
 #Definit la largeur des colonnes
 ws.column_dimensions['A'].width = 15
 ws.column_dimensions['B'].width = 18
-#Format la largeur des lignes en fonctions de si elles sont pairs ou impairs
+#Format la largeur des colonnes en fonctions de si elles sont pairs ou impairs
 number_odd = 1
 for cols in ws.iter_cols(min_col=3, max_col=20):
     #Obtient la lettre de la colonne à partir de la première cellule de la colonne
     col_letter = cols[0].column_letter
-
     if number_odd % 2 == 1:
         ws.column_dimensions[col_letter].width = 26
     else:
         ws.column_dimensions[col_letter].width = 15
-
     number_odd += 1
-
 
 #Définit la hauteur des lignes
 ws.row_dimensions[1].height = 64.5
@@ -57,11 +55,9 @@ ws.merge_cells(start_row=3, start_column=3, end_row=3, end_column=8) #Début de 
 ws.merge_cells(start_row=3, start_column=9, end_row=3, end_column=14) #Milieux de zone
 ws.merge_cells(start_row=3, start_column=15, end_row=3, end_column=20) #Fin de zone
 
-
-
 #Rempli les cellules fusionnées
 ws.cell(row=1, column=3).value = 'RTE -'
-ws.cell(row=1, column=5).value = 'Poste de XXXX \nTableau des essaies de zone \nXXXX_Rapport_Essais_Zone' #Comment faire des retours a la ligne avec openpyxl dans une cellule merged 
+ws.cell(row=1, column=5).value = 'Poste de XXXX \nTableau des essaies de zone \nXXXX_Rapport_Essais_Zone'
 ws.cell(row=1, column=18).value = 'Logo de SPIE'
 ws.cell(row=2, column=3).value = f'Créer le : {datetime.today().strftime('%d/%m/%Y')} \nAuteur de la création : Pierry BENOIT'
 ws.cell(row=2, column=7).value = "Modifié le :  \nActeur de la modification : "
@@ -98,8 +94,6 @@ for cells in ws[1:2]:
         for cell in cells :
                 cell.alignment = retour_ligne
 
-
-
 #Mise en page du fichier excel
 ##Met le texte au centre de la cellule
 texte_centrer = Alignment(horizontal='center', vertical='center')
@@ -134,8 +128,34 @@ for cells in ws[1:4]:
 
 ##Change la taille de la police 
 ws['C1'].font = Font(size=20, bold=True)
+ws['E1'].font = Font(size=14, bold=True)
 for cell in ws[4]:
      cell.font = Font(size=14, bold=True, color="ffffff")
+
+##Définition des styles pour la mise en forme du fichier excel
+pair_lines_background = PatternFill(start_color='adcdff', end_color='adcdff', fill_type="solid")
+border_zone_TH = Border(left=Side(border_style="thick",color='FF000000'),
+                        right=Side(border_style="thick",color='FF000000'),
+                        vertical=Side(border_style="thick",color='FF000000'),
+                        bottom=Side(border_style="dotted",color='FF000000'))
+border_exp = Border(right=Side(border_style='double',color='FF000000'),
+                            bottom=Side(border_style='dotted',color='FF000000'))
+border_passage = Border(right=Side(border_style='dotted',color='FF000000'),
+                            bottom=Side(border_style='dotted',color='FF000000'))
+
+##Application des styles sur les lignes des passages
+number_odd = 1
+for cols in ws.iter_cols(min_col=1, max_col=20):
+    col_letter = cols[0].column_letter  #Obtient la lettre de la colonne à partir de la première cellule de la colonne
+    for i in range(5,10):
+        if (i % 2 == 0):
+                 ws[f'A{i}'].fill = pair_lines_background
+        if cols == 1 or cols == 2:
+            ws[f'A{i}'].border = border_zone_TH
+        elif cols > 2 and cols % 2 == 1 :               ################ A modifier !!!!!!!!!!!!!!!!
+            ws[f'{col_letter}{i}'].border_passage
+        else :
+            ws[f'{col_letter}{i}'].border_exp
 
 #Sauvegarde le weebook (fichier excel)
 wb.save(f"./excl-test/{file_name}")
