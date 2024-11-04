@@ -5,7 +5,6 @@ from openpyxl.styles import Font, Border, PatternFill, Alignment, Side
 
 #pip install pillow -> inserer des images dans un fichier excel
 
-
 wb = Workbook()
 
 ws = wb.active
