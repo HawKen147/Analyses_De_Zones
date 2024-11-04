@@ -1,11 +1,9 @@
+import controleur.fonctions as fonctions
+import view.windows_err as werr
 from tkinter import filedialog
-import windows_err as werr
-import tkinter.messagebox
+import main_mv_folder
 import customtkinter
 import webbrowser
-import mv_folder
-import fonctions
-import tkinter
 import os
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -15,7 +13,6 @@ width = 825
 height = 500
 
 class main_window(customtkinter.CTk):
-
     def __init__(self):
         super().__init__()
 
@@ -74,6 +71,7 @@ class main_window(customtkinter.CTk):
 
         #definition initial state       
         self.valider_button.configure(state="disabled")
+        self.sidebar_button_2.configure(state="disabled")
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
         self.bind_all("<KeyPress>", self.functions_calls)
@@ -87,7 +85,7 @@ class main_window(customtkinter.CTk):
 
     #Verifie si le chemin donnée existe
     def check_path(self, path):
-        if (os.path.exists(path) or path == ''):
+        if ((os.path.exists(path) or path == '')):
             return True
         else :
             return False
@@ -113,9 +111,9 @@ class main_window(customtkinter.CTk):
         if nb_camera != '' and chemin_stocker!= '':
             #appel la fonction pour créer les dossiers
             if (fonctions.creer_dossier(nb_camera, chemin_stocker)):
-                 werr.window_err.win_err(self, no_err='no_err')
+                 werr.window_err.win_err(self, no_err='no_err_create_folder')
             else :
-                 werr.window_err.win_err(self, simple_err='simple_err')
+                 werr.window_err.win_err(self, simple_err = 'simple_err')
 
     #Fonction qui appel la fonction qui gere le bouton validé    
     def functions_calls(self, event):
@@ -136,11 +134,6 @@ class main_window(customtkinter.CTk):
         if nb_camera.isdigit() and os.path.exists(chemin_stocker) and len(os.listdir(chemin_stocker)) == 0 :          # Verifier si nb_camera est bien un entier, si le chemin renseigner est existant et si le chemin renseigné est vide, si il n'y a rien d'entré dans l'entré des videos surveillances et si la checkbox est bien décocher.
             return True
         
-   #ferme la fenetre correspondante
-    def close_window(self):
-        if hasattr(self, 'err_window') and self.err_window:
-            self.err_window.destroy()
-
     #Lorsqu'une fenetre est créee, l'ouvre au milieu de la fenetre parente
     def window_center(self,window_width, window_height):
         # Obtient les dimensions de l'écran
@@ -161,19 +154,6 @@ class main_window(customtkinter.CTk):
         
     #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
     #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
-   #ferme la fenetre correspondante
-    def close_window(self):
-        if hasattr(self, 'err_window') and self.err_window:
-            self.err_window.destroy()
-
-    #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
     def dossier_mv_win(self, event):
         self.destroy()
-<<<<<<< Updated upstream:window_creat_folders.py
-        mv_folder.mv_win()
-=======
-        main_mv_folder.mv_win()
-
-"""    def window_center(self,window_width, window_height):
-        # Obtient les dimensions de l'écran"""
->>>>>>> Stashed changes:view/window_create_folders.py
+        main_mv_folder.mv_win()           
