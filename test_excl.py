@@ -142,20 +142,27 @@ border_exp = Border(right=Side(border_style='double',color='FF000000'),
                             bottom=Side(border_style='dotted',color='FF000000'))
 border_passage = Border(right=Side(border_style='dotted',color='FF000000'),
                             bottom=Side(border_style='dotted',color='FF000000'))
+border_top =  Border(top=Side(border_style="medium", color='FF000000'))
 
 ##Application des styles sur les lignes des passages
-number_odd = 1
-for cols in ws.iter_cols(min_col=1, max_col=20):
-    col_letter = cols[0].column_letter  #Obtient la lettre de la colonne à partir de la première cellule de la colonne
-    for i in range(5,10):
-        if (i % 2 == 0):
-                 ws[f'A{i}'].fill = pair_lines_background
-        if cols == 1 or cols == 2:
-            ws[f'A{i}'].border = border_zone_TH
-        elif cols > 2 and cols % 2 == 1 :               ################ A modifier !!!!!!!!!!!!!!!!
-            ws[f'{col_letter}{i}'].border_passage
-        else :
-            ws[f'{col_letter}{i}'].border_exp
+nb_camera = 20
+for rows in ws.iter_rows(min_row=5, max_row=nb_camera, min_col=1, max_col=20):
+    for cell in rows:
+        if cell.column_letter == 'A' or cell.column_letter == 'B' :
+            cell.border = border_zone_TH
+        elif cell.column % 2 == 0:
+            cell.border = border_exp 
+        else : 
+            cell.border = border_passage
+            
+        if (cell.row % 2 == 0):
+            cell.fill = pair_lines_background
+
+##Applique le style a la dernier ligne +1
+for cell in ws.iter_rows(min_row=nb_camera + 1, max_row=nb_camera + 1, min_col=1, max_col=20):
+    for cell_in_row in cell:
+        cell_in_row.border = border_top
+
 
 #Sauvegarde le weebook (fichier excel)
 wb.save(f"./excl-test/{file_name}")
