@@ -136,6 +136,10 @@ class main_window(customtkinter.CTk):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
 
+    #Récupère les clics sur les boutons dans la sidebar
+    def sidebar_button_event(self):
+        print("sidebar_button click")  
+
     #Fonction qui permet soit de vérifier les clips vidéo deja present (si la checkbox est coché)
     #Soit de déplacer les clips vidéos dans les dossiers.
     #Affiche la fenetre des erreurs    

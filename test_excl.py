@@ -11,7 +11,6 @@ ws = wb.active
 
 ws.title = f"Essaies zones {datetime.today().strftime('%d-%m-%Y')}"
 
-
 #Nom du fichier pour qu'il soit sauvegardé
 file_name = f"Essaies_zones_{datetime.today().strftime('%d-%m-%Y')}.xlsx"
 
