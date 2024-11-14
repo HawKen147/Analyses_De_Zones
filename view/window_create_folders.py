@@ -152,6 +152,17 @@ class main_window(customtkinter.CTk):
         self.chemin_video_recuperer_entry.delete(0, customtkinter.END)
         self.chemin_video_recuperer_entry.insert(0, chemin_dossier)
         
+    #ferme la fenetre correspondante
+    def close_window(self):
+        if hasattr(self, 'err_window') and self.err_window:
+            self.err_window.destroy()
+    
+    #Ferme et ouvre la fenetre mv_files apres avoir créer les dossiers
+    def close_window_redirect(self):
+        if hasattr(self, 'err_window') and self.err_window:
+            self.err_window.destroy()
+            self.dossier_mv_win(self)
+        
     #lorsque le lien "les dossiers sont déja créer ?" est cliqué, ,on change de fenetre pour aller sur la fenetre suivante pour déplacer les videos
     #La fonction peut aussi etre appelé lorsque les dossiers ont finis d'être crées
     def dossier_mv_win(self, event):

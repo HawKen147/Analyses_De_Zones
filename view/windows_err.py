@@ -64,5 +64,6 @@ class window_err(customtkinter.CTk):
             button_quit = customtkinter.CTkButton(self.err_window, text="OK", command=self.close_window)
             label_no_err.grid(row=0, column=0, pady=(20,5), padx=20)
             button_quit.grid(row=1, column=0, pady=5)
+                           
         self.err_window.attributes('-topmost', True)
         self.err_window.lift()
