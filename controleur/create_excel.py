@@ -10,22 +10,33 @@ import datetime
 import locale
 import os
 
+# Fonction qui vérifie que le dossier excel existe
+# Si il n'existe pas, la fonction crée le dossier
+def check_dir_exist():
+    print(os.listdir())
+    if not os.path.isdir('excel') in os.listdir() :
+        os.makedirs("./excel")
+
+#Fonction qui vérifie le nom du fichier. Si il n'existe pas, incrémente le nom du ficher de 1
+def check_filename(file_name):
+    i = 0
+    while True:
+        i += 1
+        if not os.path.isfile(f"./excel/{file_name}"):
+                break 
+        else:
+            file_name = f"Essaies_zones_{datetime.date.today().strftime('%d-%m-%Y')}({i}).xlsx"
+    return file_name
+
 wb = Workbook()
 
 ws = wb.active
 
-ws.title = f"Essaies zones {datetime.today().strftime('%d-%m-%Y')}"
+ws.title = f"Essaies zones {datetime.date.today().strftime('%d-%m-%Y')}"
 
 #Nom du fichier pour qu'il soit sauvegardé
-file_name = f"Essaies_zones_{datetime.today().strftime('%d-%m-%Y')}.xlsx"
-
-i = 0
-while True:
-    i += 1
-    if not os.path.isfile(f"./excel/{file_name}"):
-            break 
-    else:
-        file_name = f"Essaies_zones_{datetime.today().strftime('%d-%m-%Y')}({i}).xlsx"
+file_name = f"Essaies_zones_{datetime.date.today().strftime('%d-%m-%Y')}.xlsx"
+file_name = check_filename(file_name)
 
 #Definit la largeur des colonnes
 ws.column_dimensions['A'].width = 15
@@ -62,7 +73,7 @@ ws.merge_cells(start_row=3, start_column=15, end_row=3, end_column=20) #Fin de z
 ws.cell(row=1, column=3).value = 'RTE -'
 ws.cell(row=1, column=5).value = 'Poste de XXXX \nTableau des essaies de zone \nXXXX_Rapport_Essais_Zone'
 ws.cell(row=1, column=18).value = 'Logo de SPIE'
-ws.cell(row=2, column=3).value = f'Créer le : {datetime.today().strftime('%d/%m/%Y')} \nAuteur de la création : Pierry BENOIT'
+ws.cell(row=2, column=3).value = f'Créer le : {datetime.date.today().strftime('%d/%m/%Y')} \nAuteur de la création : Pierry BENOIT'
 ws.cell(row=2, column=7).value = "Modifié le :  \nActeur de la modification : "
 ws.cell(row=2, column=15).value = "Version : 1"
 ws.cell(row=3, column=3).value = "Début de zone"
@@ -157,7 +168,6 @@ for rows in ws.iter_rows(min_row=5, max_row=nb_camera, min_col=1, max_col=20):
             cell.border = border_exp 
         else : 
             cell.border = border_passage
-            
         if (cell.row % 2 == 0):
             cell.fill = pair_lines_background
 
@@ -210,19 +220,13 @@ def format_date(date):
     formatted_date = date_obj.strftime("%A %d %B %Y")
     return formatted_date
 
-#fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
-#si il n'existe pas il crée le dossier
-def check_path():
-    if not "final" in os.listdir(f"model/excel"):
-        os.makedirs(f"excel/final")
-
 #Fonction principale de la création du fichier excel
 def main_excel(path_to_folder):
     print(path_to_folder)
 
     #fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
     #si il n'existe pas il crée le dossier
-    check_path()
+    check_dir_exist()
 
     """# Chemin du fichier Excel final
     new_excel_file = "./model/excel/final/Essaies_Zones.xlsx"
