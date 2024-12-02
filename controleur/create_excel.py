@@ -1,14 +1,12 @@
 #On enregistre le classeur Excel
 from openpyxl import *
 from datetime import datetime
-import os
-from openpyxl.styles import Font, Border, PatternFill, Alignment, Side
-
-#pip install pillow -> inserer des images dans un fichier excel
-import controleur.fonctions as fonctions
 import datetime
-import locale
+from openpyxl.styles import Font, Border, PatternFill, Alignment, Side
+from openpyxl.drawing.image import Image
+import controleur.fonctions as fonctions
 import os
+#import locale
 
 # Fonction qui vérifie que le dossier excel existe
 # Si il n'existe pas, la fonction crée le dossier
@@ -102,6 +100,10 @@ def format_excel(path_to_folder):
     ws['S4'] = "Fin rampé"
     ws['T4'] = "Exp."
 
+    #Ajoute le logo spie en haut a droite du fichier excel
+    img = Image("img/Spie.svg.png")
+    ws.add_image(img, 'R1')
+
     #Applique un retour a la ligne aux cellules
     retour_ligne = Alignment(wrapText=True)
     for cells in ws[1:2]:
@@ -118,9 +120,9 @@ def format_excel(path_to_folder):
             cell.alignment = texte_centrer
 
     ##Change l'arrière plan de la cellule (couleurs)
-    couleur_cell_C3 = "f7d059"
-    couleur_cell_I3 = "3bf77a"
-    couleur_cell_O3 = "fff700"
+    couleur_cell_C3 = "a8eaff" #Change la couleur du fond de la cellule "debut zone"
+    couleur_cell_I3 = "a8ffdd" #Change la couleur du fond de la cellule "mileux zone"
+    couleur_cell_O3 = "c8ffa8" #Change la couleur du fond de la cellule "fin zone"
     couleur_row_4 = "59a0f7"
     ws['C3'].fill = PatternFill(start_color=couleur_cell_C3, end_color=couleur_cell_C3, fill_type="solid") #Change le fond de la cellule pour du vert
     ws['I3'].fill = PatternFill(start_color=couleur_cell_I3, end_color=couleur_cell_I3, fill_type="solid") #Change le fond de la cellule pour du jaune
@@ -201,17 +203,19 @@ def colonne_passage_excel(type_passage):
         case "FR" :
             return 'S'
         case _:
-            print(f"le type de passage rejeté {type_passage}")
             return False
         
 #Récupere l'heure du passage du clip
 #retourne la date et l'heure du passage
 def recuperer_heure_passage(nom_clip):
-    for i in range(len(nom_clip)):
-        if nom_clip[i:i+4].isdigit():
-            time = nom_clip[i:i+16]
-            date, heure = time.split('_')
-            return date, heure
+    try:
+        for i in range(len(nom_clip)):
+            if nom_clip[i:i+4].isdigit():
+                time = nom_clip[i:i+16]
+                date, heure = time.split('_')
+                return date, heure
+    except Exception as e :
+        return False
         
 #formate la date YYYY-MM-DD en jour xx mois année (vendredi 17 Mai 2024)
 #retourne la date formaté
@@ -222,7 +226,10 @@ def format_date(date):
     return formatted_date
 
 #Fonction principale de la création du fichier excel
+#Fonction qui retourne les erreurs lors de la création du fichier excel
 def main_excel(path_to_folder):
+    err_dates = []
+    err_passage = []
 
     #fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
     #si il n'existe pas il crée le dossier
@@ -244,17 +251,31 @@ def main_excel(path_to_folder):
     clips = fonctions.get_videos_clips(path_to_folder)
 
     #On parcourt tout les clips
+    #A voir si on peut améliorer le procéder ici
+    #Vérifier si c'est faux en premier avant de continuer l'execution du script
     for clip in clips :
-        index_numero_cam = clip.find("TH")                                  #Index ou se situe TH (récuperer l'index de T)
-        numero_cam = clip[index_numero_cam+2:index_numero_cam+4]            #On recupere l'indice ou se situe TH et on récupere les 2 chiffres apres TH
-        ligne_excel = int(numero_cam) + 4                                   #On commence a la 4è ligne du fichier excel (apres les en-tetes)
         type_de_passage = clip[-6:-4]                                       #On récupere le type de passage (qui est la fin du nom de la video ...DM.asf)
         colonne_excel = colonne_passage_excel(type_de_passage)              #on récuperer la bonne colonne en fonction du passage (DM = colonne C)
-        date, heure = recuperer_heure_passage(clip)
-        heure = heure.replace('h', ':')                                     #On remplace HHhMM en HH:MM (14h00 -> 14:00)
-        date_time = format_date(date)                                       #Formate la date en Francais
-        new_date_time = fonctions.date_eng_to_fr(date_time)
-        ws[f"{colonne_excel}{ligne_excel}"] = f"{new_date_time} {heure}"          #Remplis la feuille de calcule
-
+        if colonne_excel == False :
+            err_passage.append(clip)
+        else : 
+            index_numero_cam = clip.find("TH")                                  #Index ou se situe TH (récuperer l'index de T)
+            numero_cam = clip[index_numero_cam+2:index_numero_cam+4]            #On recupere l'indice ou se situe TH et on récupere les 2 chiffres apres TH
+            ligne_excel = int(numero_cam) + 4                                   #On commence a la 4è ligne du fichier excel (apres les en-tetes)
+            if recuperer_heure_passage(clip) == False :
+                err_dates.append(f"La date du fichier {clip} n'est pas conforme")
+            else :
+                date, heure = recuperer_heure_passage(clip)
+                heure = heure.replace('h', ':')                                     #On remplace HHhMM en HH:MM (14h00 -> 14:00)
+                date_time = format_date(date)                                       #Formate la date en Francais
+                new_date_time = fonctions.date_eng_to_fr(date_time)
+                ws[f"{colonne_excel}{ligne_excel}"] = f"{new_date_time} {heure}"          #Remplis la feuille de calcule
+        
     #Sauvegarde le weebook (fichier excel)
-    wb.save(f"./excel/{file_name}")
+    try:
+        wb.save(f"./excel/{file_name}")
+        err_save = ""
+    except Exception as e:
+        err_save = f"Impossible de sauvegarder le fichier : {e}"
+
+    return err_dates, err_passage, err_save

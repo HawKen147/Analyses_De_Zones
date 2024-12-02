@@ -9,7 +9,7 @@ import os
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-width = 825
+width = 850
 height = 500
 
 class main_window(customtkinter.CTk):
@@ -18,7 +18,7 @@ class main_window(customtkinter.CTk):
 
         # configure window
         self.title("Aventure en Stockage")
-        self.minsize(825,500)
+        self.minsize(850,500)
         self.geometry(f"{width}x{height}")
 
         # configure grid layout (4x4)

@@ -34,11 +34,9 @@ La V0.9 permet aussi la création du fichier Excel !
 Une fois les dossiers créés, il faudra renseigner le chemin où sont stockés les vidéos des passages. Une fois cela réalisé, le bouton pour généré l'excel deviendra cliquable.
 
 ## Prochaines Mises à jours
-- Création du fichier Excel sans model
-- Créer le changement de fenêtre automatiquement après avoir créé les dossiers
 - Incorporer les analyses de vie a l'interface graphique
-- Géstion de la fenêtre, éviter quelle ne s'ouvre qu'au même endroit (même après l'avoir déplacé)
-- Mettre à jour la gestion des dates pour le fichier Excel, si la date n'est pas au bon format, le script crash, et le fichier excel n'est pas crée
+- Gestion de la fenêtre, éviter quelle ne s'ouvre qu'au même endroit (même après l'avoir déplacé)
+
 ### Rendu de l'application (front-end)
 # Thème claire 
 ![Screenshot de l'application thème claire 1](https://www.aht.li/3849489/Capture_decran_2024-05-13_123516.png)

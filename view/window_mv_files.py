@@ -13,7 +13,7 @@ customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 #definition de la taille de la fenêtre par défaut
-width = 825
+width = 850
 height = 500
 
 #Classe pour créer la fenetre principale
@@ -24,7 +24,7 @@ class main_window(customtkinter.CTk):
 
         # configure window
         self.title("Aventure en Stockage")
-        self.minsize(825,500)
+        self.minsize(850,500)
         self.geometry(f"{width}x{height}")
 
         # configure grid layout (4x4)
@@ -194,8 +194,11 @@ class main_window(customtkinter.CTk):
     ### Créer la fenetre d'erreur dans err ###
     ##########################################
     def create_excel(self):
-        erreurs = create_excel.main_excel(self.chemin_video_stocker_entry.get())
-        print(erreurs)
+        err_dates, err_passage, err_save = create_excel.main_excel(self.chemin_video_stocker_entry.get())
+        if len(err_dates) == 0 and len(err_passage) == 0 and err_save == "":
+            werr.window_err.win_err(self, no_err = 'no_err')
+        else :
+            werr.window_err.win_err(self, err_dates=err_dates, err_passage=err_passage, err_save=err_save)
 
     #Gestion du bouton de la création du fichier excel (bouton sidebar "excel")
     def excel_button(self): 

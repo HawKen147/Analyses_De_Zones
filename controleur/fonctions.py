@@ -85,20 +85,20 @@ def get_video_cam_files(path_video_camera, path_folder_camera):
     
 #Fonction qui déplace les videos dans les bon dossiers
 def move_video_to_folder(path_video_camera, path_folder_camera, video_name, list_name_video_cam):
-    type_passage, folder_cam = get_passage_cam_number(list_name_video_cam)
-    if type_passage == False:
+    if get_passage_cam_number(list_name_video_cam) == False:
         return list_name_video_cam
-    
-    path_folder_camera += f"\\{folder_cam}\\{type_passage}"
-    path_video_camera += f"\\{video_name}"
-    if not os.path.exists(path_folder_camera):
-        return path_folder_camera
-    
-    if check_file_exists(list_name_video_cam, path_folder_camera) != False:    #Si le fichier n'est pas dans le dossier on déplace le fichier
-        shutil.move(path_video_camera, path_folder_camera)
-        return True
     else :
-        return 2
+        type_passage, folder_cam = get_passage_cam_number(list_name_video_cam)
+        path_folder_camera += f"\\{folder_cam}\\{type_passage}"
+        path_video_camera += f"\\{video_name}"
+        if not os.path.exists(path_folder_camera):
+            return path_folder_camera
+
+        if check_file_exists(list_name_video_cam, path_folder_camera) != False:    #Si le fichier n'est pas dans le dossier on déplace le fichier
+            shutil.move(path_video_camera, path_folder_camera)
+            return True
+        else :
+            return 2
 
 #Retourne le type de passage selon la lettre dans le nom du fichier
 def get_passage_cam_number(list_name_video_cam):
