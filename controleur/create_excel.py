@@ -70,7 +70,7 @@ def format_excel(path_to_folder):
     #Rempli les cellules fusionnées
     ws.cell(row=1, column=3).value = 'RTE -'
     ws.cell(row=1, column=5).value = 'Poste de XXXX \nTableau des essaies de zone \nXXXX_Rapport_Essais_Zone'
-    ws.cell(row=1, column=18).value = 'Logo de SPIE'
+    #ws.cell(row=1, column=18).value = 'Logo de SPIE'
     ws.cell(row=2, column=3).value = f'Créer le : {datetime.date.today().strftime('%d/%m/%Y')} \nAuteur de la création : Pierry BENOIT'
     ws.cell(row=2, column=7).value = "Modifié le :  \nActeur de la modification : "
     ws.cell(row=2, column=15).value = "Version : 1"
@@ -234,7 +234,7 @@ def main_excel(path_to_folder):
     #fonction qui verifie si le dossier pour stoker le fichier excel existe ou pas
     #si il n'existe pas il crée le dossier
     check_dir_exist()
-    file_name = f"Essaies_zones_{datetime.date.today().strftime('%d-%m-%Y')}).xlsx"
+    file_name = f"Essaies_zones_{datetime.date.today().strftime('%d-%m-%Y')}.xlsx"
     file_name = check_filename(file_name)
     
     wb = format_excel(path_to_folder)

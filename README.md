@@ -5,13 +5,13 @@
 - Limite les erreurs de manipulation
 - Création du fichier excel de manière simple et rapide
 
-## Version actuel V0.9
-La version V0.9 est une version assez complète qui remplit presque tous les objectifs. Le visuel est (presque) terminé.
-Le visuel de l'application a été revu entièrement avec plusieurs fenêtres pour que ce soit plus guidé.
-### V0.9
-La v0.9 permet de créer les dossiers qui permettront de stocker les vidéos d'essaies de zones. Il suffit de renseigner le dossier dans lequel on souhaite stocker les vidéos. Le dossier doit être vide sinon ca ne marchera pas.
+## Version actuel V1.0
+La version V1.0 est la première version fini du script.
+Le script permet de déplacer les clips vidéos contenue dans le coffre fort de Genetec, dans des dossiers créés depuis l'application. Cela permet de gagner du temps et d'éviter les erreurs lorsque l'on extrait les clips de test. Le script vérifie la bonne extension du clip et si le clip n'existe pas déja. Si ces conditions sont respectés, alors le clip est déplacé dans le bon dossier.
+### V1.0
+La V1.0 permet de créer les dossiers qui permettront de stocker les vidéos d'essaies de zones. Il suffit de renseigner le dossier dans lequel on souhaite stocker les vidéos. Le dossier doit être vide sinon cela ne marche pas.
 
-Ci dessous l'arborescence des dossiers créé pour chaque caméra
+Ci dessous l'arborescence des dossiers créés pour chaque caméra
 ```
 CAM_XX
   |-rampe
@@ -28,13 +28,13 @@ Il y a autant de dossier CAM_XX que de caméra. Il suffit de les créer depuis l
  - DM -> Debut Marché, DC -> Début Courir, DR -> Début Rampé, MC -> Milieux Courir, MM -> Milieux MArché, MR -> Milieux Rampé, FC -> Fin Courir, FM -> Fin Marché, FR -> Fin Rampé.
 - Les fichiers en double ne sont pas déplacés et sont affichés dans la fenêtre erreur lors de la fin de l'éxecution du programme.
 
-**Avec la version 0.9, pas besoin de nom générique, A partir du moment ou dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)). Exemple : NomDuSite_THxx_HeureDuPassage_DM, THxxHeureDuPassageDM**
+**Avec la version 1.0, pas besoin de nom générique, A partir du moment ou dans le nom de fichier figure bien "TH" et si le passage est au fond (F), milieux (M) ou debut (D) de zone avec le style de passage (Ramper (R), Marcher (M), Courir (C)). Exemple : NomDuSite_THxx_HeureDuPassage_DM, THxxHeureDuPassageDM**
 
-La V0.9 permet aussi la création du fichier Excel !
-Une fois les dossiers créés, il faudra renseigner le chemin où sont stockés les vidéos des passages. Une fois cela réalisé, le bouton pour généré l'excel deviendra cliquable.
+La V1.0 permet aussi la création d'un fichier Excel ! Le fichier excel permet d'afficher rapidement les clips vidéos présent dans les dossiers. Le fichier excel est créé et stocké dans le dossier excel du projet. 
+Une fois les dossiers créés, il faudra renseigner le chemin où sont stockés les vidéos des passages. Une fois cela réalisé, le bouton pour générer l'excel deviendra cliquable.
 
 ## Prochaines Mises à jours
-- Incorporer les analyses de vie a l'interface graphique
+- Incorporer les analyses de vie à l'interface graphique
 - Gestion de la fenêtre, éviter quelle ne s'ouvre qu'au même endroit (même après l'avoir déplacé)
 
 ### Rendu de l'application (front-end)
