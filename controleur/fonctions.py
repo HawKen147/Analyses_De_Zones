@@ -105,14 +105,15 @@ def get_passage_cam_number(list_name_video_cam):
     try :
         numero_cam = list_name_video_cam[0]
         folder_cam = f"CAM_{numero_cam}"
-        type_passage = list_name_video_cam[-1][1]
-        if type_passage == 'R':
+        type_passage = list_name_video_cam[-1]
+        #print(list_name_video_cam[-1][::-1].find("R"))
+        if type_passage[::-1].find("R"):
             type_passage = "rampe"
             return type_passage , folder_cam
-        elif type_passage == 'C':
+        elif type_passage[::-1].find("C"):
             type_passage = "courir"
             return type_passage, folder_cam
-        elif type_passage == "M":
+        elif type_passage[::-1].find("M"):
             type_passage = "marche"
             return type_passage, folder_cam
         else:
@@ -154,7 +155,7 @@ def check_extension_folder(video_cam):
 #met a jour le fichier incomplet.txt
 def update_incomplet_txt(path, name_cam_folder):
     type_passage, numero_cam = get_passage_cam_number(name_cam_folder)
-    type_passage = name_cam_folder[-1][:2]
+    type_passage = name_cam_folder[-1][-6:-4]
     path += f"/{numero_cam}/incomplet.txt"
     del_passage_type_txt(path, type_passage)
 
@@ -194,14 +195,12 @@ def check_value_dict(dict_check):
             dict_check[cle] = "le dossier est complet"
     return dict_check
 
-
 #Fonction qui vérifie si le fichier a déplacer existe déjà ou pas
 def check_file_exists(file_name, path_to_folder):
     files_in_directory = os.listdir(f"{path_to_folder}\\")
     for file in files_in_directory:
         if file_name[-1] in file:
             return False
-        
 
 #Fonction qui récupere le nombre de camera
 def get_nb_camera(path_to_folders):
