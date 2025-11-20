@@ -61,7 +61,9 @@ def check_creation_folder(cam_path, rampe_cam_path, courir_cam_path, marche_cam_
     else :
         return True
     
-
+###################################################
+############### Fonction Principale ###############
+###################################################
 #Fonction qui va permetre de deplacer les videos dans les dossiers creer precedement
 def get_video_cam_files(path_video_camera, path_folder_camera):
     list_video_err = []
@@ -105,15 +107,13 @@ def get_passage_cam_number(list_name_video_cam):
     try :
         numero_cam = list_name_video_cam[0]
         folder_cam = f"CAM_{numero_cam}"
-        type_passage = list_name_video_cam[-1]
-        #print(list_name_video_cam[-1][::-1].find("R"))
-        if type_passage[::-1].find("R"):
+        if list_name_video_cam[-1][::-1].find("R") != -1:
             type_passage = "rampe"
             return type_passage , folder_cam
-        elif type_passage[::-1].find("C"):
+        elif list_name_video_cam[-1][::-1].find("C") != -1:
             type_passage = "courir"
             return type_passage, folder_cam
-        elif type_passage[::-1].find("M"):
+        elif list_name_video_cam[-1][::-1].find("M") != -1:
             type_passage = "marche"
             return type_passage, folder_cam
         else:
@@ -260,7 +260,7 @@ def eng_to_fr_day(day):
             day[0] = "Dimanche"
             return day
         case _ :
-            print("c'est quoi ce bordel")
+            print("Erreur, jour inconnue")
 
 #Traduis le mois anglais en mois francais
 def eng_to_fr_month(month):
@@ -302,7 +302,7 @@ def eng_to_fr_month(month):
             month[2] = "Décembre"
             return month
         case _ :
-           print("je comprends pas")
+           print("Erreur, mois inconnue")
         
 #Transforme la tableau de date en string
 def tab_date_to_str(date_time):
